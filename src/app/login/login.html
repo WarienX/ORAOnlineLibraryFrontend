@@ -1,0 +1,33 @@
+<div class="login-wrapper">
+  <!-- Left Side with Background Image -->
+  <div class="left-panel">
+    <div class="overlay">
+      <div class="brand-content">
+        <h1>Hi, Welcome back</h1>
+        <p class="subtitle">Sign in to access your ORA World School account</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Right Side -->
+  <div class="right-panel">
+    <div class="form-container">
+      <h2>Sign in to your account</h2>
+      <p class="signup-text">Don't have an account? <a href="#">Contact Admin</a></p>
+
+        <button mat-raised-button class="google-btn" (click)="loginWithGoogle()">
+        Continue with
+        <img 
+            src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" 
+            alt="Google" 
+            class="google-icon" />
+        </button>
+
+      <p class="footer-note">
+        By continuing, you agree to our 
+        <a href="#">Terms of Service</a> and 
+        <a href="#">Privacy Policy</a>.
+      </p>
+    </div>
+  </div>
+</div>

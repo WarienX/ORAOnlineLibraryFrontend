@@ -1,0 +1,107 @@
+.admin-sidenav {
+  width: 260px;
+  background-color: #0a2540;
+  color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* ===== Header / Logo ===== */
+.sidenav-header {
+  padding: 28px 16px 20px;
+  text-align: center;
+  flex-shrink: 0;
+
+  .sidenav-logo {
+    height: 56px;
+    margin-bottom: 12px;
+    /* Make logo bright/white if needed */
+    filter: brightness(0) invert(1); /* ← Uncomment this if logo is dark */
+  }
+
+  h3 {
+    margin: 0;
+    font-size: 1.15rem;
+    font-weight: 500;
+    color: #ffffff; /* Force white */
+  }
+}
+
+/* ===== Navigation Links ===== */
+mat-nav-list {
+  flex: 1;
+  overflow-y: auto;
+  padding: 12px 10px;
+
+  /* Hide scrollbar */
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  a {
+    color: #e2e8f0 !important;        /* Light gray-white text */
+    margin: 4px 0;
+    border-radius: 10px;
+    height: 48px;
+    transition: all 0.2s ease;
+
+    mat-icon {
+      color: #94a3b8 !important;      /* Soft gray icons */
+      margin-right: 14px;
+    }
+
+    span {
+      font-size: 0.95rem;
+      font-weight: 400;
+      color: #e2e8f0 !important;
+    }
+
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.08);
+      
+      mat-icon, span {
+        color: #ffffff !important;
+      }
+    }
+  }
+
+  /* Active link */
+  .active-link {
+    background-color: rgba(255, 255, 255, 0.12) !important;
+
+    mat-icon, span {
+      color: #ffffff !important;
+      font-weight: 500;
+    }
+  }
+}
+
+/* ===== Logout Button ===== */
+.sidenav-footer {
+  flex-shrink: 0;
+  padding: 16px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+
+  .logout-btn {
+    width: 100%;
+    color: #f87171 !important;
+    justify-content: flex-start;
+    height: 46px;
+    border-radius: 8px;
+
+    mat-icon {
+      margin-right: 12px;
+      color: #f87171 !important;
+    }
+
+    &:hover {
+      background-color: rgba(248, 113, 113, 0.12);
+    }
+  }
+}
+
+.spacer {
+  flex: 1 1 auto;
+}

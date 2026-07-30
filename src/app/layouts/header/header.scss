@@ -1,0 +1,93 @@
+.top-bar {
+  background-color: #0a2540;
+  min-height: 48px;
+}
+
+.top-bar-content {
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 24px;
+}
+
+.top-text {
+  color: white;
+  font-size: 0.95rem;
+}
+
+.social-icons a {
+  color: white;
+}
+
+.main-header {
+  background-color: white;
+  color: #0a2540;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.main-content {
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+}
+
+.logo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  line-height: 1;
+}
+
+.logo-image {
+  height: 40px;
+  width: auto;
+  max-width: 220px;
+}
+
+.ora-logo {
+  font-size: 2.2rem;
+  font-weight: bold;
+  color: #0a2540;
+  letter-spacing: -2px;
+}
+
+.subtitle {
+  font-size: 0.75rem;
+  color: #f4a261;
+  font-weight: 500;
+}
+
+.nav-links {
+  display: flex;
+  gap: 8px;
+}
+
+.nav-links a {
+  color: #0a2540;
+  font-weight: 500;
+}
+
+.cta-button {
+  background-color: #ff8c42;
+  color: white;
+  font-weight: 600;
+  border-radius: 50px;
+  padding: 10px 24px;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.profile-btn {
+  color: #0a2540;
+}

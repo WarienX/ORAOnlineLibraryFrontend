@@ -1,0 +1,87 @@
+<mat-sidenav-container class="admin-container">
+
+  <!-- Sidebar -->
+  <mat-sidenav 
+    #sidenav 
+    mode="side" 
+    opened="true" 
+    class="admin-sidenav"
+    [fixedInViewport]="true"
+    [fixedTopGap]="0">
+    
+    <div class="sidenav-header">
+      <img src="/assets/images/logo.png" alt="ORA" class="sidenav-logo" />
+      <h3>Admin Panel</h3>
+    </div>
+
+    <mat-nav-list>
+      <a mat-list-item routerLink="/admin" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}">
+        <mat-icon matListItemIcon>dashboard</mat-icon>
+        <span matListItemTitle>Dashboard</span>
+      </a>
+
+      <a mat-list-item routerLink="/admin/students" routerLinkActive="active-link">
+        <mat-icon matListItemIcon>groups</mat-icon>
+        <span matListItemTitle>Students</span>
+      </a>
+
+      <a mat-list-item routerLink="/admin/teachers" routerLinkActive="active-link">
+        <mat-icon matListItemIcon>school</mat-icon>
+        <span matListItemTitle>Teachers</span>
+      </a>
+
+      <a mat-list-item routerLink="/admin/classes" routerLinkActive="active-link">
+        <mat-icon matListItemIcon>class</mat-icon>
+        <span matListItemTitle>Classes</span>
+      </a>
+
+      <a mat-list-item routerLink="/admin/announcements" routerLinkActive="active-link">
+        <mat-icon matListItemIcon>campaign</mat-icon>
+        <span matListItemTitle>Announcements</span>
+      </a>
+
+      <a mat-list-item routerLink="/admin/settings" routerLinkActive="active-link">
+        <mat-icon matListItemIcon>settings</mat-icon>
+        <span matListItemTitle>Settings</span>
+      </a>
+    </mat-nav-list>
+
+    <div class="sidenav-footer">
+      <button mat-button (click)="logout()" class="logout-btn">
+        <mat-icon>logout</mat-icon>
+        Logout
+      </button>
+    </div>
+  </mat-sidenav>
+
+  <!-- Main Content -->
+  <mat-sidenav-content class="admin-content">
+    <!-- Top Toolbar -->
+    <mat-toolbar class="admin-toolbar">
+      <button mat-icon-button (click)="sidenav.toggle()">
+        <mat-icon>menu</mat-icon>
+      </button>
+      <span class="spacer"></span>
+      
+      <button mat-icon-button [matMenuTriggerFor]="profileMenu">
+        <mat-icon>account_circle</mat-icon>
+      </button>
+      <mat-menu #profileMenu="matMenu">
+        <button mat-menu-item routerLink="/profile">
+          <mat-icon>person</mat-icon>
+          <span>Profile</span>
+        </button>
+        <button mat-menu-item (click)="logout()">
+          <mat-icon>logout</mat-icon>
+          <span>Logout</span>
+        </button>
+      </mat-menu>
+    </mat-toolbar>
+
+    <!-- Page Content -->
+    <div class="page-content">
+      <router-outlet></router-outlet>
+    </div>
+  </mat-sidenav-content>
+
+</mat-sidenav-container>

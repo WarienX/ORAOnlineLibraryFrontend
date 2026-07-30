@@ -1,4 +1,5 @@
-import { Component, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
+import { DeviceService } from './services';
 import { RouterOutlet } from '@angular/router';
 
 @Component({
@@ -8,5 +9,11 @@ import { RouterOutlet } from '@angular/router';
   styleUrl: './app.scss'
 })
 export class App {
-  protected readonly title = signal('ora-online-library');
+  private deviceService = inject(DeviceService);
+  protected readonly title = signal('ORA Reading Collective');
+
+  ngOnInit() {
+    const deviceID = this.deviceService.getDeviceId();
+    console.log({ deviceID });
+  }
 }

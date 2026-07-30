@@ -1,0 +1,116 @@
+<div class="admin-home">
+
+  <!-- Welcome Section -->
+  <div class="welcome-section">
+    <div class="welcome-text">
+      <h1>Welcome back, Admin</h1>
+      <p>Here's what's happening at ORA World School today.</p>
+    </div>
+    <div class="date">
+      {{ today | date: 'fullDate' }}
+    </div>
+  </div>
+
+  <!-- Stats Cards -->
+  <div class="stats-grid">
+    <mat-card class="stat-card">
+      <mat-card-content>
+        <div class="stat-icon students">
+          <mat-icon>groups</mat-icon>
+        </div>
+        <div class="stat-info">
+          <h3>{{ stats().totalStudents }}</h3>
+          <p>Total Students</p>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="stat-card">
+      <mat-card-content>
+        <div class="stat-icon teachers">
+          <mat-icon>school</mat-icon>
+        </div>
+        <div class="stat-info">
+          <h3>{{ stats().totalTeachers }}</h3>
+          <p>Teachers</p>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="stat-card">
+      <mat-card-content>
+        <div class="stat-icon classes">
+          <mat-icon>class</mat-icon>
+        </div>
+        <div class="stat-info">
+          <h3>{{ stats().totalClasses }}</h3>
+          <p>Active Classes</p>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="stat-card">
+      <mat-card-content>
+        <div class="stat-icon pending">
+          <mat-icon>pending_actions</mat-icon>
+        </div>
+        <div class="stat-info">
+          <h3>{{ stats().pendingRequests }}</h3>
+          <p>Pending Requests</p>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <!-- Main Content -->
+  <div class="content-grid">
+
+    <!-- Recent Activity -->
+    <mat-card class="activity-card">
+      <mat-card-header>
+        <mat-card-title>Recent Activity</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="activity-list">
+          <div class="activity-item" *ngFor="let activity of recentActivities()">
+            <div class="activity-icon">
+              <mat-icon>{{ activity.icon }}</mat-icon>
+            </div>
+            <div class="activity-details">
+              <p class="activity-text">{{ activity.text }}</p>
+              <span class="activity-time">{{ activity.time }}</span>
+            </div>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Quick Actions -->
+    <mat-card class="quick-actions-card">
+      <mat-card-header>
+        <mat-card-title>Quick Actions</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="actions-grid">
+          <button mat-stroked-button class="action-btn" routerLink="/admin/students">
+            <mat-icon>person_add</mat-icon>
+            Add Student
+          </button>
+          <button mat-stroked-button class="action-btn" routerLink="/admin/teachers">
+            <mat-icon>person_add</mat-icon>
+            Add Teacher
+          </button>
+          <button mat-stroked-button class="action-btn" routerLink="/admin/classes">
+            <mat-icon>add_circle</mat-icon>
+            Create Class
+          </button>
+          <button mat-stroked-button class="action-btn" routerLink="/admin/announcements">
+            <mat-icon>campaign</mat-icon>
+            Post Announcement
+          </button>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+  </div>
+</div>
