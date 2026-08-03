@@ -17,7 +17,7 @@ export class AuthService {
   currentUser$ = this.currentUserSubject.asObservable();
 
   private readonly GOOGLE_CLIENT_ID = '521672049311-ijfi6ef7gnlovolmjatgfso95kcctkvt.apps.googleusercontent.com';
-  private readonly API_URL = 'http://localhost:3001/api/auth/g-login';
+  private readonly API_URL = 'http://localhost:3001/api';
 
   private readonly DEVICE_ID_KEY = 'ora_device_id';
 
@@ -69,13 +69,17 @@ export class AuthService {
         console.log({ googleUser })
         const deviceId = localStorage.getItem(this.DEVICE_ID_KEY);
         // 2. Send Google user data + access token to your backend
-        this.http.post(`${this.API_URL}`, {
+        this.http.post(`${this.API_URL}/auth/g-login`, {
           accessToken: accessToken,
           email: googleUser.email,
           full_name: googleUser.name,
           picture: googleUser.picture,
           googleId: googleUser.sub,
           deviceId: deviceId
+        },{
+          headers: {
+            deviceId: `${deviceId}`
+          }
         }).subscribe({
           next: (res: any) => {
             console.log({ res });
@@ -103,10 +107,26 @@ export class AuthService {
   }
 
   logout() {
-    localStorage.removeItem('token');
-    localStorage.removeItem('user');
-    this.currentUserSubject.next(null);
-    this.router.navigate(['/login']);
+    const deviceId = localStorage.getItem(this.DEVICE_ID_KEY);
+    const accessToken = localStorage.getItem('token');
+    this.http.post(`${this.API_URL}/auth/logout`, {},{
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        deviceId: `${deviceId}`
+      }
+    }).subscribe({
+      next: (res: any) => {
+        console.log('Logged out successfully', res);
+
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
+        this.currentUserSubject.next(null);
+        this.router.navigate(['/login']);
+      },
+      error: (err) => {
+        console.error('Logout failed:', err);
+      }
+    })
   }
 
   get isLoggedIn(): boolean {
