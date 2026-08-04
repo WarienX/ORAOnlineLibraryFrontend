@@ -3,6 +3,7 @@ import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
+import { API_ENDPOINTS } from '../core';
 
 declare const google: any;
 
@@ -17,7 +18,6 @@ export class AuthService {
   currentUser$ = this.currentUserSubject.asObservable();
 
   private readonly GOOGLE_CLIENT_ID = '521672049311-ijfi6ef7gnlovolmjatgfso95kcctkvt.apps.googleusercontent.com';
-  private readonly API_URL = 'http://localhost:3001/api';
 
   private readonly DEVICE_ID_KEY = 'ora_device_id';
 
@@ -60,7 +60,7 @@ export class AuthService {
    */
   private handleAccessToken(accessToken: string) {
     // 1. Get user info from Google
-    this.http.get('https://www.googleapis.com/oauth2/v3/userinfo', {
+    this.http.get(API_ENDPOINTS.google.oauth2, {
       headers: {
         Authorization: `Bearer ${accessToken}`
       }
@@ -69,7 +69,7 @@ export class AuthService {
         console.log({ googleUser })
         const deviceId = localStorage.getItem(this.DEVICE_ID_KEY);
         // 2. Send Google user data + access token to your backend
-        this.http.post(`${this.API_URL}/auth/g-login`, {
+        this.http.post(API_ENDPOINTS.auth.googleLogin, {
           accessToken: accessToken,
           email: googleUser.email,
           full_name: googleUser.name,
@@ -109,7 +109,7 @@ export class AuthService {
   logout() {
     const deviceId = localStorage.getItem(this.DEVICE_ID_KEY);
     const accessToken = localStorage.getItem('token');
-    this.http.post(`${this.API_URL}/auth/logout`, {},{
+    this.http.post(API_ENDPOINTS.auth.logout, {},{
       headers: {
         Authorization: `Bearer ${accessToken}`,
         deviceId: `${deviceId}`

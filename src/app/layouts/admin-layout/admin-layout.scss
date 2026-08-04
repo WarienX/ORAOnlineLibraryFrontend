@@ -28,54 +28,77 @@
   }
 }
 
-/* ===== Navigation Links ===== */
-mat-nav-list {
-  flex: 1;
-  overflow-y: auto;
-  padding: 12px 10px;
+/* Make all top-level items look the same */
+.nav-item {
+  border-radius: 10px !important;
+  margin: 4px 8px !important;
+  height: 48px !important;
+  color: white !important;
 
-  /* Hide scrollbar */
-  scrollbar-width: none;
-  &::-webkit-scrollbar {
-    display: none;
+  mat-icon {
+    color: rgba(255, 255, 255, 0.8) !important;
   }
 
-  a {
-    color: #e2e8f0 !important;        /* Light gray-white text */
-    margin: 4px 0;
-    border-radius: 10px;
-    height: 48px;
-    transition: all 0.2s ease;
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.08) !important;
+  }
+}
 
-    mat-icon {
-      color: #94a3b8 !important;      /* Soft gray icons */
-      margin-right: 14px;
-    }
+/* Expand arrow */
+.menu-label {
+  display: inline-flex !important;
+  align-items: center;
+  gap: 6px;
+}
 
-    span {
-      font-size: 0.95rem;
-      font-weight: 400;
-      color: #e2e8f0 !important;
-    }
+.expand-icon {
+  font-size: 18px !important;
+  width: 18px !important;
+  height: 18px !important;
+  transition: transform 0.2s ease;
+  color: rgba(255, 255, 255, 0.7) !important;
+  margin: 0 !important;
+}
 
-    &:hover {
-      background-color: rgba(255, 255, 255, 0.08);
-      
-      mat-icon, span {
-        color: #ffffff !important;
-      }
-    }
+.expand-icon.expanded {
+  transform: rotate(180deg);
+}
+
+/* Sub items */
+.nav-sub-items {
+  padding: 0 8px 4px 12px;
+}
+
+.sub-item {
+  height: 42px !important;
+  border-radius: 8px !important;
+  margin: 2px 0 !important;
+  color: rgba(255, 255, 255, 0.75) !important;
+  padding-left: 20px !important;
+
+  mat-icon {
+    color: rgba(255, 255, 255, 0.6) !important;
+    font-size: 20px !important;
+    width: 20px !important;
+    height: 20px !important;
   }
 
-  /* Active link */
-  .active-link {
-    background-color: rgba(255, 255, 255, 0.12) !important;
-
-    mat-icon, span {
-      color: #ffffff !important;
-      font-weight: 500;
-    }
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.08) !important;
   }
+}
+
+.sub-item.active-link {
+  background-color: rgba(255, 255, 255, 0.12) !important;
+  color: #ffffff !important;
+
+  mat-icon {
+    color: #ffffff !important;
+  }
+}
+
+.parent-item,.child-item {
+  color: white !important;
 }
 
 /* ===== Logout Button ===== */
@@ -104,4 +127,94 @@ mat-nav-list {
 
 .spacer {
   flex: 1 1 auto;
+}
+
+/* ===== Nested Menu ===== */
+.nav-group {
+  margin: 4px 8px;
+}
+
+.nav-group-header {
+  width: 100% !important;
+  height: 48px !important;
+  border-radius: 10px !important;
+  color: rgba(255, 255, 255, 0.85) !important;
+  padding: 0 16px !important;
+  display: flex !important;
+  align-items: center;
+
+  mat-icon[matListItemIcon] {
+    color: rgba(255, 255, 255, 0.8) !important;
+    margin-right: 12px;
+  }
+
+  span[matListItemTitle] {
+    flex: 1;
+    text-align: left;
+    font-size: 0.95rem;
+    color: white !important;
+  }
+
+  .expand-icon {
+    margin-left: auto;
+    transition: transform 0.2s ease;
+    font-size: 20px !important;
+    width: 20px !important;
+    height: 20px !important;
+    color: rgba(255, 255, 255, 0.7) !important;
+  }
+
+  .expand-icon.expanded {
+    transform: rotate(180deg);
+  }
+
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.08) !important;
+  }
+}
+
+/* Active state when any child route is active (optional) */
+.nav-group-header.active-parent {
+  background-color: rgba(255, 255, 255, 0.12) !important;
+  color: #ffffff !important;
+}
+
+/* Sub items */
+.nav-sub-items {
+  padding-left: 16px;
+  margin-top: 2px;
+  margin-bottom: 4px;
+}
+
+.sub-item {
+  height: 42px !important;
+  border-radius: 8px !important;
+  margin: 2px 0 !important;
+  color: rgba(255, 255, 255, 0.75) !important;
+  padding-left: 16px !important;
+
+  mat-icon {
+    color: rgba(255, 255, 255, 0.65) !important;
+    font-size: 20px !important;
+    width: 20px !important;
+    height: 20px !important;
+    margin-right: 12px;
+  }
+
+  span {
+    font-size: 0.9rem;
+  }
+
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.08) !important;
+  }
+}
+
+.sub-item.active-link {
+  background-color: rgba(255, 255, 255, 0.12) !important;
+  color: #ffffff !important;
+
+  mat-icon {
+    color: #ffffff !important;
+  }
 }

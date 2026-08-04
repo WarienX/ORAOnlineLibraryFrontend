@@ -1,0 +1,69 @@
+<div class="page-container">
+
+  <!-- Page Header -->
+  <div class="page-header">
+    <div>
+      <h1>Add New Grade</h1>
+      <p>Create a new grade for the school</p>
+    </div>
+
+    <button mat-stroked-button class="back-btn" routerLink="/admin/grades">
+      <mat-icon>arrow_back</mat-icon>
+      Back to List
+    </button>
+  </div>
+
+  <!-- Form Card -->
+  <div class="form-card">
+
+    <!-- Section Header -->
+    <div class="section-header">
+      <div>
+        <h2>Grade Details</h2>
+        <p>Enter the grade number and name</p>
+      </div>
+    </div>
+
+    <form [formGroup]="gradeForm" (ngSubmit)="onSubmit()" class="form-body">
+
+      <!-- Grade Number -->
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Grade Number</mat-label>
+        <input matInput formControlName="gradeNumber" placeholder="e.g. 1" type="number" />
+        @if (gradeForm.get('gradeNumber')?.hasError('required') && gradeForm.get('gradeNumber')?.touched) {
+          <mat-error>Grade Number is required</mat-error>
+        }
+      </mat-form-field>
+
+      <!-- Grade Name -->
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Grade Name</mat-label>
+        <input matInput formControlName="gradeName" placeholder="e.g. Grade 1" />
+        @if (gradeForm.get('gradeName')?.hasError('required') && gradeForm.get('gradeName')?.touched) {
+          <mat-error>Grade Name is required</mat-error>
+        }
+      </mat-form-field>
+
+      <!-- Actions -->
+      <div class="form-actions">
+        <button mat-stroked-button type="button" class="cancel-btn" (click)="onCancel()">
+          Cancel
+        </button>
+
+        <button mat-flat-button color="primary" type="submit"
+                class="save-btn"
+                [disabled]="isSubmitting || gradeForm.invalid">
+          @if (isSubmitting) {
+            Saving...
+          } @else {
+            <span class="btn-content">
+              <mat-icon>save</mat-icon>
+              Save Grade
+            </span>
+          }
+        </button>
+      </div>
+
+    </form>
+  </div>
+</div>

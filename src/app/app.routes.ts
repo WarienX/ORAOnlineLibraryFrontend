@@ -5,6 +5,8 @@ import { Login } from './login/login';
 import { AdminHome } from './admin/admin-home/admin-home';
 import { AdminLayout } from './layouts/admin-layout/admin-layout';
 import { PublicLayout } from './layouts/public-layout/public-layout';
+import { AddGrade } from './admin/add-grade/add-grade';
+import { GradesList } from './admin/grades-list/grades-list';
 
 export const routes: Routes = [
     {
@@ -30,6 +32,16 @@ export const routes: Routes = [
                 path: 'home',
                 title: 'ORA Reading Collective - Admin Home',
                 component: AdminHome,
+            },
+            {
+                path: 'grades/add',
+                title: 'ORA Reading Collective - Admin Add Grade',
+                component: AddGrade,
+            },
+            {
+                path: 'grades',
+                title: 'ORA Reading Collective - Admin Grade List',
+                component: GradesList,
             }
         ]
     },

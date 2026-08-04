@@ -1,0 +1,176 @@
+.page-container {
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+/* ===== Page Header ===== */
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 28px;
+
+  h1 {
+    margin: 0 0 6px;
+    font-size: 1.75rem;
+    font-weight: 600;
+    color: #0f172a;
+    letter-spacing: -0.3px;
+  }
+
+  p {
+    margin: 0;
+    color: #64748b;
+    font-size: 0.95rem;
+  }
+}
+
+.add-btn {
+  border-radius: 8px;
+  height: 42px;
+  padding: 0 20px;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* ===== Content Card ===== */
+.content-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+  overflow: hidden;
+  min-height: 320px;
+}
+
+/* ===== States (Loading / Empty) ===== */
+.state-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 24px;
+  text-align: center;
+  color: #64748b;
+  gap: 12px;
+
+  h3 {
+    margin: 8px 0 0;
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: #334155;
+  }
+
+  p {
+    margin: 0 0 16px;
+    font-size: 0.95rem;
+  }
+}
+
+.empty-icon {
+  width: 64px;
+  height: 64px;
+  border-radius: 16px;
+  background: #f1f5f9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 8px;
+
+  mat-icon {
+    font-size: 28px;
+    width: 28px;
+    height: 28px;
+    color: #94a3b8;
+  }
+}
+
+/* ===== Table ===== */
+.table-wrapper {
+  overflow-x: auto;
+}
+
+.grades-table {
+  width: 100%;
+  background: transparent;
+}
+
+:host ::ng-deep {
+  .mat-mdc-header-row {
+    background: #f8fafc;
+    height: 52px;
+  }
+
+  .mat-mdc-header-cell {
+    color: #64748b;
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    text-transform: uppercase;
+    border-bottom: 1px solid #e2e8f0 !important;
+  }
+
+  .mat-mdc-row {
+    height: 60px;
+    transition: background-color 0.15s ease;
+
+    &:hover {
+      background-color: #f8fafc;
+    }
+  }
+
+  .mat-mdc-cell {
+    border-bottom: 1px solid #f1f5f9 !important;
+    color: #334155;
+    font-size: 0.95rem;
+  }
+
+  .mat-mdc-row:last-child .mat-mdc-cell {
+    border-bottom: none !important;
+  }
+}
+
+.grade-number {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 36px;
+  height: 36px;
+  padding: 0 10px;
+  background: #f1f5f9;
+  border-radius: 8px;
+  font-weight: 600;
+  color: #0f172a;
+}
+
+.grade-name {
+  font-weight: 500;
+  color: #0f172a;
+}
+
+.actions-header {
+  width: 80px;
+  text-align: right;
+}
+
+.actions-cell {
+  text-align: right;
+}
+
+.more-btn {
+  color: #94a3b8;
+
+  &:hover {
+    color: #64748b;
+  }
+}
+
+.delete-item {
+  color: #dc2626 !important;
+
+  mat-icon {
+    color: #dc2626 !important;
+  }
+}

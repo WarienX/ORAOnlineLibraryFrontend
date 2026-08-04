@@ -18,6 +18,12 @@ import { AuthService } from '../../services';
 export class AdminLayout {
   private authService = inject(AuthService);
 
+  isGradesMenuOpen = true;
+
+  toggleGradesMenu() {
+    this.isGradesMenuOpen = !this.isGradesMenuOpen;
+  }
+
   logout() {
     this.authService.logout();
   }
