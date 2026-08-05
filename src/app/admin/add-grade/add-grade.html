@@ -52,8 +52,8 @@
 
         <button mat-flat-button color="primary" type="submit"
                 class="save-btn"
-                [disabled]="isSubmitting || gradeForm.invalid">
-          @if (isSubmitting) {
+                [disabled]="(isSubmitting()) || gradeForm.invalid">
+          @if (isSubmitting()) {
             Saving...
           } @else {
             <span class="btn-content">

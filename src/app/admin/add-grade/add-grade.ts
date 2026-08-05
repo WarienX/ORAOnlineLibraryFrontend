@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -32,7 +32,7 @@ export class AddGrade {
   private router = inject(Router);
   private snackBar = inject(MatSnackBar);
 
-  isSubmitting = false;
+  isSubmitting = signal(false);
 
   gradeForm = this.fb.group({
     gradeNumber: [1, [Validators.required]],
@@ -45,25 +45,26 @@ export class AddGrade {
       return;
     }
 
-    this.isSubmitting = true;
+    this.isSubmitting.set(true);
 
     const payload = {
-      gradeNumber: this.gradeForm.value.gradeNumber!,
-      gradeName: this.gradeForm.value.gradeName!
+      grade_number: this.gradeForm.value.gradeNumber!,
+      name: this.gradeForm.value.gradeName!
     };
 
     this.gradeService.createGrade(payload).subscribe({
       next: () => {
-        this.isSubmitting = false;
+        this.isSubmitting.set(false);
         this.snackBar.open('Grade created successfully!', 'Close', {
           duration: 3000
         });
         this.router.navigate(['/admin/grades']);
       },
       error: (err) => {
-        this.isSubmitting = false;
-        console.error('Failed to create grade:', err);
-        this.snackBar.open('Failed to create grade. Please try again.', 'Close', {
+        this.isSubmitting.set(false);
+        console.error('Failed to create grade:');
+        console.log(err.error.message);
+        this.snackBar.open(`Failed to create grade: ${err.error.message}`, 'Close', {
           duration: 4000
         });
       }
