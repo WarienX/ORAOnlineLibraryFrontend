@@ -62,6 +62,10 @@
               </button>
 
               <mat-menu #menu="matMenu">
+                <button mat-menu-item [routerLink]="['/admin/grades/edit', grade.id]">
+                  <mat-icon>edit</mat-icon>
+                  <span>Edit</span>
+                </button>
                 <button mat-menu-item class="delete-item">
                   <mat-icon>delete</mat-icon>
                   <span>Delete</span>

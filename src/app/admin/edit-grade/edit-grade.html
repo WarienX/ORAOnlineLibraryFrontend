@@ -1,1 +1,69 @@
-<p>edit-grade works!</p>
+<div class="page-container">
+
+  <div class="page-header">
+    <div>
+      <h1>Edit Grade</h1>
+      <p>Update the grade name</p>
+    </div>
+
+    <button mat-stroked-button class="back-btn" routerLink="/admin/grades">
+      <mat-icon>arrow_back</mat-icon>
+      Back to List
+    </button>
+  </div>
+
+  @if (isLoading()) {
+    <div class="loading-container">
+      <mat-spinner diameter="42"></mat-spinner>
+      <p>Loading grade...</p>
+    </div>
+  } @else {
+    <div class="form-card">
+
+      <div class="section-header">
+        <div>
+          <h2>Grade Details</h2>
+          <p>Only the grade name can be edited</p>
+        </div>
+      </div>
+
+      <form [formGroup]="gradeForm" (ngSubmit)="onSubmit()" class="form-body">
+
+        <!-- Grade Number (Read-only) -->
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Grade Number</mat-label>
+          <input matInput formControlName="gradeNumber" readonly />
+        </mat-form-field>
+
+        <!-- Grade Name (Editable) -->
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Grade Name</mat-label>
+          <input matInput formControlName="gradeName" placeholder="e.g. Grade 1" />
+          @if (gradeForm.get('gradeName')?.hasError('required') && gradeForm.get('gradeName')?.touched) {
+            <mat-error>Grade Name is required</mat-error>
+          }
+        </mat-form-field>
+
+        <div class="form-actions">
+          <button mat-stroked-button type="button" class="cancel-btn" (click)="onCancel()">
+            Cancel
+          </button>
+
+          <button mat-flat-button color="primary" type="submit"
+                  class="save-btn"
+                  [disabled]="isSubmitting() || gradeForm.invalid">
+            @if (isSubmitting()) {
+              Saving...
+            } @else {
+              <span class="btn-content">
+                <mat-icon>save</mat-icon>
+                Update Grade
+              </span>
+            }
+          </button>
+        </div>
+
+      </form>
+    </div>
+  }
+</div>

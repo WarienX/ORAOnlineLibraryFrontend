@@ -1,6 +1,6 @@
 import { HttpClient } from "@angular/common/http";
 import { inject, Injectable } from "@angular/core";
-import { API_ENDPOINTS, ICreateGradePayload, IEditGradePayload, IGrade, IGradeListResponse, IGradeResponse } from "../core";
+import { API_ENDPOINTS, ICreateGradePayload, IEditGradePayload, IGrade, IGradeListResponse, IGradeResponse, ISingleGradePayload } from "../core";
 import { Observable } from "rxjs";
 
 @Injectable({
@@ -19,5 +19,9 @@ export class GradeService {
 
     updateGrade(payload: IEditGradePayload): Observable<IGradeResponse> {
         return this.http.put<IGradeResponse>(`${API_ENDPOINTS.grades.edit}`, payload);
+    }
+
+    getGradeById(payload: ISingleGradePayload): Observable<IGradeResponse> {
+        return this.http.post<IGradeResponse>(API_ENDPOINTS.grades.single, payload);
     }
 }

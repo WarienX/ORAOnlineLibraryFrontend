@@ -1,0 +1,121 @@
+<div class="page-container">
+
+  <div class="page-header">
+    <div>
+      <h1>Student Onboarding</h1>
+      <p>Register a new student with parent contact details</p>
+    </div>
+  </div>
+
+  <!-- Student Info Section (Read-only) -->
+  <div class="info-card">
+    <div class="info-item">
+      <span class="info-label">Student Name</span>
+      <span class="info-value">{{ studentName() }}</span>
+    </div>
+    <div class="info-divider"></div>
+    <div class="info-item">
+      <span class="info-label">Email</span>
+      <span class="info-value">{{ studentEmail() }}</span>
+    </div>
+  </div>
+
+  <div class="form-card">
+
+    <div class="section-header">
+      <div>
+        <h2>Student Details</h2>
+        <p>Select grade and provide at least one parent’s contact information</p>
+      </div>
+    </div>
+
+    <form [formGroup]="onboardingForm" (ngSubmit)="onSubmit()" class="form-body">
+
+      <!-- Grade Dropdown -->
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Student Grade</mat-label>
+        <mat-select formControlName="gradeId" [disabled]="isLoadingGrades()">
+          @for (grade of grades; track grade.id) {
+            <mat-option [value]="grade.id">
+              {{ grade.name }}
+            </mat-option>
+          }
+        </mat-select>
+        @if (onboardingForm.get('gradeId')?.hasError('required') && onboardingForm.get('gradeId')?.touched) {
+          <mat-error>Grade is required</mat-error>
+        }
+      </mat-form-field>
+
+      <!-- Father Details -->
+      <div class="section-title">Father’s Contact</div>
+
+      <div class="form-row">
+        <mat-form-field appearance="outline" class="half-width">
+          <mat-label>Father Email</mat-label>
+          <input matInput formControlName="fatherEmail" type="email" placeholder="father@example.com" />
+          @if (onboardingForm.get('fatherEmail')?.hasError('email') && onboardingForm.get('fatherEmail')?.touched) {
+            <mat-error>Enter a valid email</mat-error>
+          }
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="half-width">
+          <mat-label>Father Mobile</mat-label>
+          <input matInput formControlName="fatherMobile" placeholder="10-digit number" maxlength="10" />
+          @if (onboardingForm.get('fatherMobile')?.hasError('pattern') && onboardingForm.get('fatherMobile')?.touched) {
+            <mat-error>Enter a valid 10-digit mobile number</mat-error>
+          }
+        </mat-form-field>
+      </div>
+
+      <!-- Mother Details -->
+      <div class="section-title">Mother’s Contact</div>
+
+      <div class="form-row">
+        <mat-form-field appearance="outline" class="half-width">
+          <mat-label>Mother Email</mat-label>
+          <input matInput formControlName="motherEmail" type="email" placeholder="mother@example.com" />
+          @if (onboardingForm.get('motherEmail')?.hasError('email') && onboardingForm.get('motherEmail')?.touched) {
+            <mat-error>Enter a valid email</mat-error>
+          }
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="half-width">
+          <mat-label>Mother Mobile</mat-label>
+          <input matInput formControlName="motherMobile" placeholder="10-digit number" maxlength="10" />
+          @if (onboardingForm.get('motherMobile')?.hasError('pattern') && onboardingForm.get('motherMobile')?.touched) {
+            <mat-error>Enter a valid 10-digit mobile number</mat-error>
+          }
+        </mat-form-field>
+      </div>
+
+      <!-- Parent validation error -->
+      @if (onboardingForm.hasError('parentRequired') && onboardingForm.touched) {
+        <div class="parent-error">
+          <mat-icon>error_outline</mat-icon>
+          Please provide Email and Mobile for at least one parent (Father or Mother).
+        </div>
+      }
+
+      <!-- Actions -->
+      <div class="form-actions">
+        <button mat-stroked-button type="button" class="cancel-btn" (click)="onCancel()">
+          Cancel
+        </button>
+
+        <button mat-flat-button color="primary" type="submit"
+                class="save-btn"
+                [disabled]="isSubmitting() || onboardingForm.invalid">
+          @if (isSubmitting()) {
+            Submitting...
+          } @else {
+            <span class="btn-content">
+              <mat-icon>person_add</mat-icon>
+              Onboard Student
+            </span>
+          }
+        </button>
+      </div>
+
+    </form>
+  </div>
+</div>

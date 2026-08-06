@@ -3,7 +3,7 @@ import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
-import { API_ENDPOINTS } from '../core';
+import { API_ENDPOINTS, UserRole } from '../core';
 
 declare const google: any;
 
@@ -89,10 +89,14 @@ export class AuthService {
             localStorage.setItem('user', JSON.stringify(userData));
 
             this.currentUserSubject.next(userData);
-            if (userData.role == "admin") {
-                this.router.navigate(['/admin/home']);
+            if (userData.role == UserRole.ADMIN) {
+              this.router.navigate(['/admin/home']);
             } else {
+              if (userData.role == UserRole.STUDENT && res.studentDataExists === false) {
+                this.router.navigate(['/student/onboarding']);
+              } else {
                 this.router.navigate(['/']); // redirect after success
+              }
             }
           },
           error: (err) => {

@@ -7,6 +7,8 @@ import { AdminLayout } from './layouts/admin-layout/admin-layout';
 import { PublicLayout } from './layouts/public-layout/public-layout';
 import { AddGrade } from './admin/add-grade/add-grade';
 import { GradesList } from './admin/grades-list/grades-list';
+import { EditGrade } from './admin/edit-grade/edit-grade';
+import { StudentOnbooarding } from './public/student-onbooarding/student-onbooarding';
 
 export const routes: Routes = [
     {
@@ -18,6 +20,11 @@ export const routes: Routes = [
                 path: '',
                 title: 'ORA Reading Collective - Homepage',
                 component: Homepage,
+            },
+            {
+                path: 'student/onboarding',
+                title: 'ORA Reading Collective - Onboarding',
+                component: StudentOnbooarding,
             }
         ]
     },{
@@ -42,6 +49,11 @@ export const routes: Routes = [
                 path: 'grades',
                 title: 'ORA Reading Collective - Admin Grade List',
                 component: GradesList,
+            },
+            { 
+                path: 'grades/edit/:id',
+                title: 'ORA Reading Collective - Admin Edit Grade',
+                component: EditGrade 
             }
         ]
     },

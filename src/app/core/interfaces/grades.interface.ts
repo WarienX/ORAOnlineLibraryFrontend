@@ -9,6 +9,10 @@ export interface IEditGradePayload {
   name: string;
 }
 
+export interface ISingleGradePayload {
+  grade_id: number;
+}
+
 export interface IGrade {
   id: number;
   grade_number: number;
