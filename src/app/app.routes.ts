@@ -8,7 +8,7 @@ import { PublicLayout } from './layouts/public-layout/public-layout';
 import { AddGrade } from './admin/add-grade/add-grade';
 import { GradesList } from './admin/grades-list/grades-list';
 import { EditGrade } from './admin/edit-grade/edit-grade';
-import { StudentOnbooarding } from './public/student-onbooarding/student-onbooarding';
+import { StudentOnboarding } from './public/student-onboarding/student-onboarding';
 
 export const routes: Routes = [
     {
@@ -24,7 +24,7 @@ export const routes: Routes = [
             {
                 path: 'student/onboarding',
                 title: 'ORA Reading Collective - Onboarding',
-                component: StudentOnbooarding,
+                component: StudentOnboarding,
             }
         ]
     },{

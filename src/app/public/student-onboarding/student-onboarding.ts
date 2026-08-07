@@ -29,7 +29,7 @@ import { IGrade } from '../../core';
   templateUrl: './student-onbooarding.html',
   styleUrl: './student-onbooarding.scss',
 })
-export class StudentOnbooarding {
+export class StudentOnboarding {
   private fb = inject(FormBuilder);
   private gradeService = inject(GradeService);
   private studentService = inject(StudentService);

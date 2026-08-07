@@ -1,7 +1,8 @@
 import { HttpClient } from "@angular/common/http";
 import { inject, Injectable } from "@angular/core";
 import { Observable } from "rxjs";
-import { API_ENDPOINTS, IStudentExistsResponse, IStudentOnboardingPayload, IStudentOnboardingResponse } from "../core";
+import { API_ENDPOINTS, IStudentBooksListPayload, IStudentExistsResponse, IStudentOnboardingPayload, IStudentOnboardingResponse } from "../core";
+import { IStudentBooksListResponse } from "../core/interfaces/books.interface";
 
 @Injectable({
   providedIn: 'root'
@@ -13,21 +14,22 @@ export class StudentService {
     deviceId = localStorage.getItem(this.DEVICE_ID_KEY);
     accessToken = localStorage.getItem('token');
 
-  onboardStudent(payload: IStudentOnboardingPayload): Observable<IStudentOnboardingResponse> {
-    return this.http.post<IStudentOnboardingResponse>(API_ENDPOINTS.students.onboard, payload,{
+    headers = {
       headers: {
         Authorization: `Bearer ${this.accessToken}`,
         deviceId: `${this.deviceId}`
       }
-    });
+    }
+
+  onboardStudent(payload: IStudentOnboardingPayload): Observable<IStudentOnboardingResponse> {
+    return this.http.post<IStudentOnboardingResponse>(API_ENDPOINTS.students.onboard, payload,this.headers);
   }
   
   verifyStudentDataExists(): Observable<IStudentExistsResponse> {
-    return this.http.post<IStudentExistsResponse>(API_ENDPOINTS.students.dataExists, {},{
-      headers: {
-        Authorization: `Bearer ${this.accessToken}`,
-        deviceId: `${this.deviceId}`
-      }
-    });
+    return this.http.post<IStudentExistsResponse>(API_ENDPOINTS.students.dataExists, {},this.headers);
+  }
+
+  getBooksList(payload?: IStudentBooksListPayload): Observable<IStudentBooksListResponse> {
+    return this.http.post<IStudentBooksListResponse>(API_ENDPOINTS.students.books, payload,this.headers);
   }
 }

@@ -1,3 +1,5 @@
+import { BookStatus } from "../enum";
+
 export interface IStudentOnboardingPayload {
   grade: number;
   fathers_email: string;
@@ -27,4 +29,8 @@ export interface IStudentData extends IUserData {
     fathers_mobile_no: string;
     mother_email: string;
     mothers_mobile_no: string;
+}
+
+export interface IStudentBooksListPayload {
+    status: BookStatus;
 }
