@@ -7,7 +7,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { RouterModule } from '@angular/router';
 import { GoogleBooksService, StudentService } from '../../services';
-import { IBook, IBookWithCover } from '../../core/interfaces/books.interface';
+import { IBook, IBookWithCover } from '../../core';
 
 @Component({
   selector: 'app-student-books-list',

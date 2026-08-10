@@ -27,7 +27,7 @@
                 <mat-spinner diameter="28"></mat-spinner>
               </div>
             } @else if (book.coverUrl) {
-              <img [src]="book.coverUrl" [alt]="book.title" class="cover-img" />
+              <img [src]="book.coverUrl" [alt]="book.name" class="cover-img" />
             } @else {
               <div class="cover-placeholder">
                 <mat-icon>menu_book</mat-icon>
@@ -36,7 +36,7 @@
           </div>
 
           <div class="book-info">
-            <h3 class="book-title">{{ book.title }}</h3>
+            <h3 class="book-title">{{ book.name }}</h3>
             <p class="book-author">{{ book.author }}</p>
 
             <div class="book-actions">

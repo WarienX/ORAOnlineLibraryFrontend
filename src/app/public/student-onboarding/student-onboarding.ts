@@ -26,8 +26,8 @@ import { IGrade } from '../../core';
     MatSnackBarModule,
     MatProgressSpinnerModule
   ],
-  templateUrl: './student-onbooarding.html',
-  styleUrl: './student-onbooarding.scss',
+  templateUrl: './student-onboarding.html',
+  styleUrl: './student-onboarding.scss',
 })
 export class StudentOnboarding {
   private fb = inject(FormBuilder);
