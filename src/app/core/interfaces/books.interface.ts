@@ -34,5 +34,9 @@ export interface IStudentBookStatus {
 
 export interface IStudentBooksListResponse {
   message: string;
+  page: number;
+  limit: number;
+  total: number;
+  totalPages: number;
   list: IBook[];
 }

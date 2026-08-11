@@ -38,6 +38,13 @@
   padding: 0 24px;
 }
 
+.logo-link {
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+  cursor: pointer;
+}
+
 .logo {
   display: flex;
   flex-direction: column;

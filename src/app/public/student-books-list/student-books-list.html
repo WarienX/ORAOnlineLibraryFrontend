@@ -51,5 +51,15 @@
         </div>
       }
     </div>
+
+    <mat-paginator
+      class="books-paginator"
+      [length]="totalBooks()"
+      [pageSize]="pageSize()"
+      [pageIndex]="pageIndex()"
+      [pageSizeOptions]="pageSizeOptions"
+      [showFirstLastButtons]="true"
+      (page)="onPageChange($event)">
+    </mat-paginator>
   }
 </div>

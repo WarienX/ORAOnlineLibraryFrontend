@@ -32,5 +32,7 @@ export interface IStudentData extends IUserData {
 }
 
 export interface IStudentBooksListPayload {
-    status: BookStatus;
+  page: number;  
+  limit: number;  
+  status: BookStatus;
 }
