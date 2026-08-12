@@ -32,13 +32,13 @@ export class StudentBooksList {
 
   books: IBook[] = [];
   booksWithCovers: IBookWithCover[] = [];
-  bookStatus = signal(BookStatus.ALL)
+  bookStatus = signal(BookStatus.AVAILABLE)
   isLoading = signal(false);
 
   totalBooks = signal(0);
-  pageSize = signal(10);
-  pageIndex = signal(1);
-  pageSizeOptions = [10, 20, 30];
+  pageSize = signal(8);
+  pageIndex = signal(0);
+  pageSizeOptions = [8, 16, 24];
 
   ngOnInit() {
     this.loadBooks();
@@ -54,7 +54,8 @@ export class StudentBooksList {
         this.booksWithCovers = data.list.map(book => ({
           ...book,
           coverUrl: undefined,
-          coverLoading: false
+          coverLoading: false,
+          actionLoading: false
         }));
         this.totalBooks.set(data.total);
         this.isLoading.set(false);
@@ -75,6 +76,38 @@ export class StudentBooksList {
     this.pageIndex.set(event.pageIndex);
     this.pageSize.set(event.pageSize);
     this.loadBooks();
+  }
+
+  onBorrow(book: IBookWithCover) {
+    this.runAction(book, BookStatus.BORROWED);
+  }
+
+  onReserve(book: IBookWithCover) {
+    this.runAction(book, BookStatus.RESERVED);
+  }
+
+  private runAction(book: IBookWithCover, action: BookStatus) {
+    if (book.actionLoading) return;
+
+    book.actionLoading = true;
+
+    this.bookService.updateBookStatus({status: action, book_id: book.id}).subscribe({
+      next: (res) => {
+        book.actionLoading = false;
+        this.snackBar.open(
+          res.message || `Book ${action} successfully!`,
+          'Close',
+          { duration: 3000 }
+        );
+        this.loadBooks();
+      },
+      error: (err) => {
+        book.actionLoading = false;
+        const message =
+          err?.error?.message || `Failed to ${action} book. Please try again.`;
+        this.snackBar.open(message, 'Close', { duration: 4000 });
+      }
+    });
   }
 
   private fetchCover(book: IBook, index: number) {

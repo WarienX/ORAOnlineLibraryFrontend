@@ -1,4 +1,5 @@
 import { BookStatus } from "../enum";
+import { IBookStatus } from "./books.interface";
 
 export interface IStudentOnboardingPayload {
   grade: number;
@@ -11,6 +12,16 @@ export interface IStudentOnboardingPayload {
 export interface IStudentOnboardingResponse {
   message: string;
   data: IStudentData
+}
+
+export interface IStudentBookStatusPayload {
+  book_id: number;
+  status: BookStatus;
+}
+
+export interface IStudentBookStatusResp {
+  message: string;
+  data: IBookStatus;
 }
 
 export interface IUserData {

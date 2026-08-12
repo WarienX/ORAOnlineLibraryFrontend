@@ -1,7 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { inject, Injectable } from "@angular/core";
 import { Observable } from "rxjs";
-import { API_ENDPOINTS, IStudentBooksListPayload, IStudentExistsResponse, IStudentOnboardingPayload, IStudentOnboardingResponse } from "../core";
+import { API_ENDPOINTS, IStudentBooksListPayload, IStudentBookStatusPayload, IStudentBookStatusResp, IStudentExistsResponse, IStudentOnboardingPayload, IStudentOnboardingResponse } from "../core";
 import { IStudentBooksListResponse } from "../core/interfaces/books.interface";
 
 @Injectable({
@@ -31,5 +31,9 @@ export class StudentService {
 
   getBooksList(payload?: IStudentBooksListPayload): Observable<IStudentBooksListResponse> {
     return this.http.post<IStudentBooksListResponse>(API_ENDPOINTS.students.books, payload,this.headers);
+  }
+
+  updateBookStatus(payload: IStudentBookStatusPayload): Observable<IStudentBookStatusResp> {
+    return this.http.patch<IStudentBookStatusResp>(API_ENDPOINTS.students.bookStatus, payload,this.headers);
   }
 }

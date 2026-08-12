@@ -18,6 +18,7 @@ export interface IBook {
 export interface IBookWithCover extends IBook {
   coverUrl?: string;
   coverLoading?: boolean;
+  actionLoading?: boolean;
 }
 
 export interface IStudentBookStatus {
@@ -39,4 +40,15 @@ export interface IStudentBooksListResponse {
   total: number;
   totalPages: number;
   list: IBook[];
+}
+
+export interface IBookStatus {
+  id: number;
+  book_id: number;
+  student_id: number;
+  status: string;
+  borrowed_on?: string;
+  returned_on?: string;
+  return_by_date?: string;
+  reserved_on?: string;
 }

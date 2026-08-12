@@ -18,6 +18,15 @@
       <h3>No books available</h3>
     </div>
   } @else {
+    <mat-paginator
+      class="books-paginator"
+      [length]="totalBooks()"
+      [pageSize]="pageSize()"
+      [pageIndex]="pageIndex()"
+      [pageSizeOptions]="pageSizeOptions"
+      [showFirstLastButtons]="true"
+      (page)="onPageChange($event)">
+    </mat-paginator>
     <div class="books-grid">
       @for (book of booksWithCovers; track book.id) {
         <div class="book-card">
@@ -40,11 +49,19 @@
             <p class="book-author">{{ book.author }}</p>
 
             <div class="book-actions">
-              <button mat-stroked-button color="primary">
-                Borrow
+              <button mat-stroked-button color="primary" [disabled]="book.actionLoading" (click)="onBorrow(book)">
+                @if (book.actionLoading) {
+                  <mat-spinner diameter="18"></mat-spinner>
+                } @else {
+                  Borrow
+                }
               </button>
-              <button mat-button>
-                Reserve
+              <button mat-button [disabled]="book.actionLoading" (click)="onReserve(book)">
+                @if (book.actionLoading) {
+                  <mat-spinner diameter="18"></mat-spinner>
+                } @else {
+                  Reserve
+                }
               </button>
             </div>
           </div>
