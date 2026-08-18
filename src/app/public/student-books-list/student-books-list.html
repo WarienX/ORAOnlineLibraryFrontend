@@ -2,81 +2,199 @@
 
   <div class="page-header">
     <div>
-      <h1>Browse Books</h1>
-      <p>Discover and borrow books from the library</p>
+      <h1>My Books</h1>
+      <p>Browse, borrow, and manage your books</p>
     </div>
   </div>
 
-  @if (isLoading()) {
-    <div class="loading-state">
-      <mat-spinner diameter="42"></mat-spinner>
-      <p>Loading books...</p>
-    </div>
-  } @else if (booksWithCovers.length === 0) {
-    <div class="empty-state">
-      <mat-icon>menu_book</mat-icon>
-      <h3>No books available</h3>
-    </div>
-  } @else {
-    <mat-paginator
-      class="books-paginator"
-      [length]="totalBooks()"
-      [pageSize]="pageSize()"
-      [pageIndex]="pageIndex()"
-      [pageSizeOptions]="pageSizeOptions"
-      [showFirstLastButtons]="true"
-      (page)="onPageChange($event)">
-    </mat-paginator>
-    <div class="books-grid">
-      @for (book of booksWithCovers; track book.id) {
-        <div class="book-card">
-          <div class="cover-wrapper">
-            @if (book.coverLoading) {
-              <div class="cover-placeholder loading">
-                <mat-spinner diameter="28"></mat-spinner>
-              </div>
-            } @else if (book.coverUrl) {
-              <img [src]="book.coverUrl" [alt]="book.name" class="cover-img" />
-            } @else {
-              <div class="cover-placeholder">
-                <mat-icon>menu_book</mat-icon>
+  <mat-tab-group
+    class="books-tabs"
+    animationDuration="200ms"
+    (selectedIndexChange)="onTabChange($event)">
+
+    <!-- ================= AVAILABLE ================= -->
+    <mat-tab label="Available">
+      <ng-template matTabContent>
+        @if (isLoading()) {
+          <div class="state-container">
+            <mat-spinner diameter="42"></mat-spinner>
+            <p>Loading books...</p>
+          </div>
+        } @else if (booksWithCovers.length === 0) {
+          <div class="state-container">
+            <mat-icon>menu_book</mat-icon>
+            <h3>No available books</h3>
+          </div>
+        } @else {
+          <div class="books-grid">
+            @for (book of booksWithCovers; track book.id) {
+              <div class="book-card">
+                <div class="cover-wrapper">
+                  @if (book.coverLoading) {
+                    <div class="cover-placeholder loading">
+                      <mat-spinner diameter="28"></mat-spinner>
+                    </div>
+                  } @else if (book.coverUrl) {
+                    <img [src]="book.coverUrl" [alt]="book.name" class="cover-img" />
+                  } @else {
+                    <div class="cover-placeholder">
+                      <mat-icon>menu_book</mat-icon>
+                    </div>
+                  }
+                </div>
+
+                <div class="book-info">
+                  <h3 class="book-title">{{ book.name }}</h3>
+                  <p class="book-author">{{ book.author }}</p>
+
+                  <div class="book-actions">
+                    <button mat-stroked-button color="primary"
+                            [disabled]="book.actionLoading"
+                            (click)="onBorrow(book)">
+                      Borrow
+                    </button>
+                    <button mat-button
+                            [disabled]="book.actionLoading"
+                            (click)="onReserve(book)">
+                      Reserve
+                    </button>
+                  </div>
+                </div>
               </div>
             }
           </div>
 
-          <div class="book-info">
-            <h3 class="book-title">{{ book.name }}</h3>
-            <p class="book-author">{{ book.author }}</p>
+          <mat-paginator
+            [length]="totalBooks()"
+            [pageSize]="pageSize()"
+            [pageIndex]="pageIndex()"
+            [pageSizeOptions]="pageSizeOptions"
+            [showFirstLastButtons]="true"
+            (page)="onPageChange($event)">
+          </mat-paginator>
+        }
+      </ng-template>
+    </mat-tab>
 
-            <div class="book-actions">
-              <button mat-stroked-button color="primary" [disabled]="book.actionLoading" (click)="onBorrow(book)">
-                @if (book.actionLoading) {
-                  <mat-spinner diameter="18"></mat-spinner>
-                } @else {
-                  Borrow
-                }
-              </button>
-              <button mat-button [disabled]="book.actionLoading" (click)="onReserve(book)">
-                @if (book.actionLoading) {
-                  <mat-spinner diameter="18"></mat-spinner>
-                } @else {
-                  Reserve
-                }
-              </button>
-            </div>
+    <!-- ================= BORROWED ================= -->
+    <mat-tab label="Borrowed">
+      <ng-template matTabContent>
+        @if ((isLoading())) {
+          <div class="state-container">
+            <mat-spinner diameter="42"></mat-spinner>
+            <p>Loading borrowed books...</p>
           </div>
-        </div>
-      }
-    </div>
+        } @else if (booksWithCovers.length === 0) {
+          <div class="state-container">
+            <mat-icon>menu_book</mat-icon>
+            <h3>No borrowed books</h3>
+            <p>Books you borrow will appear here</p>
+          </div>
+        } @else {
+          <div class="books-grid">
+            @for (book of booksWithCovers; track book.id) {
+              <div class="book-card">
+                <div class="cover-wrapper">
+                  @if (book.coverLoading) {
+                    <div class="cover-placeholder loading">
+                      <mat-spinner diameter="28"></mat-spinner>
+                    </div>
+                  } @else if (book.coverUrl) {
+                    <img [src]="book.coverUrl" [alt]="book.name" class="cover-img" />
+                  } @else {
+                    <div class="cover-placeholder">
+                      <mat-icon>menu_book</mat-icon>
+                    </div>
+                  }
+                </div>
 
-    <mat-paginator
-      class="books-paginator"
-      [length]="totalBooks()"
-      [pageSize]="pageSize()"
-      [pageIndex]="pageIndex()"
-      [pageSizeOptions]="pageSizeOptions"
-      [showFirstLastButtons]="true"
-      (page)="onPageChange($event)">
-    </mat-paginator>
-  }
+                <div class="book-info">
+                  <h3 class="book-title">{{ book.name }}</h3>
+                  <p class="book-author">{{ book.author }}</p>
+                    @if (book.return_by_date) {
+                      <p class="due-date">Due: {{ book.return_by_date | date: 'mediumDate' }}</p>
+                    }
+                </div>
+              </div>
+            }
+          </div>
+
+          <mat-paginator
+            [length]="totalBooks()"
+            [pageSize]="pageSize()"
+            [pageIndex]="pageIndex()"
+            [pageSizeOptions]="pageSizeOptions"
+            [showFirstLastButtons]="true"
+            (page)="onPageChange($event)">
+          </mat-paginator>
+        }
+      </ng-template>
+    </mat-tab>
+
+    <!-- ================= RESERVED ================= -->
+    <mat-tab label="Reserved">
+      <ng-template matTabContent>
+        @if ((isLoading())) {
+          <div class="state-container">
+            <mat-spinner diameter="42"></mat-spinner>
+            <p>Loading reserved books...</p>
+          </div>
+        } @else if (booksWithCovers.length === 0) {
+          <div class="state-container">
+            <mat-icon>bookmark</mat-icon>
+            <h3>No reserved books</h3>
+            <p>Books you reserve will appear here</p>
+          </div>
+        } @else {
+          <div class="books-grid">
+            @for (book of booksWithCovers; track book.id) {
+              <div class="book-card">
+                <div class="cover-wrapper">
+                  @if (book.coverLoading) {
+                    <div class="cover-placeholder loading">
+                      <mat-spinner diameter="28"></mat-spinner>
+                    </div>
+                  } @else if (book.coverUrl) {
+                    <img [src]="book.coverUrl" [alt]="book.name" class="cover-img" />
+                  } @else {
+                    <div class="cover-placeholder">
+                      <mat-icon>menu_book</mat-icon>
+                    </div>
+                  }
+                </div>
+
+                <div class="book-info">
+                  <h3 class="book-title">{{ book.name }}</h3>
+                  <p class="book-author">{{ book.author }}</p>
+
+                  <div class="book-actions">
+                    <button mat-stroked-button color="primary"
+                            [disabled]="book.actionLoading"
+                            (click)="onBorrow(book)">
+                      Borrow
+                    </button>
+                    <button mat-button color="warn"
+                            [disabled]="book.actionLoading"
+                            (click)="onCancelReservation(book)">
+                      Cancel
+                    </button>
+                  </div>
+                </div>
+              </div>
+            }
+          </div>
+
+          <mat-paginator
+            [length]="totalBooks()"
+            [pageSize]="pageSize()"
+            [pageIndex]="pageIndex()"
+            [pageSizeOptions]="pageSizeOptions"
+            [showFirstLastButtons]="true"
+            (page)="onPageChange($event)">
+          </mat-paginator>
+        }
+      </ng-template>
+    </mat-tab>
+
+  </mat-tab-group>
 </div>

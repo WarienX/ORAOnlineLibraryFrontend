@@ -12,6 +12,9 @@ export interface IBook {
   grade_id: number;
   status: BookStatus;
   bookGrades: IGrade[];
+  borrowed_on?: string;
+  return_by_date?: string;
+  reserved_on?: string;
   isbn?: string;
 }
 

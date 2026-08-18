@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, signal } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
-import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
@@ -9,13 +8,14 @@ import { RouterModule } from '@angular/router';
 import { GoogleBooksService, StudentService } from '../../services';
 import { BookStatus, IBook, IBookWithCover } from '../../core';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
+import { MatTabsModule } from '@angular/material/tabs';
 
 @Component({
   selector: 'app-student-books-list',
   imports: [
     CommonModule,
     RouterModule,
-    MatCardModule,
+    MatTabsModule,
     MatButtonModule,
     MatIconModule,
     MatProgressSpinnerModule,
@@ -31,6 +31,7 @@ export class StudentBooksList {
   private snackBar = inject(MatSnackBar);
 
   books: IBook[] = [];
+  activeTab = signal(BookStatus.AVAILABLE);
   booksWithCovers: IBookWithCover[] = [];
   bookStatus = signal(BookStatus.AVAILABLE)
   isLoading = signal(false);
@@ -41,6 +42,17 @@ export class StudentBooksList {
   pageSizeOptions = [8, 16, 24];
 
   ngOnInit() {
+    this.loadBooks();
+  }
+
+  onTabChange(index: number) {
+    console.log(`Tab Index: ${index}`);
+    const tabs: BookStatus[] = [BookStatus.AVAILABLE, BookStatus.BORROWED, BookStatus.RESERVED];
+    this.activeTab.set(tabs[index]);
+    console.log(`Tab Index Value: ${tabs[index]}`);
+    this.bookStatus.set(tabs[index]);
+    this.pageIndex.set(0);
+    this.booksWithCovers.length = 0;
     this.loadBooks();
   }
 
@@ -84,6 +96,10 @@ export class StudentBooksList {
 
   onReserve(book: IBookWithCover) {
     this.runAction(book, BookStatus.RESERVED);
+  }
+
+  onCancelReservation(book: IBookWithCover) {
+    this.runAction(book, BookStatus.AVAILABLE);
   }
 
   private runAction(book: IBookWithCover, action: BookStatus) {
