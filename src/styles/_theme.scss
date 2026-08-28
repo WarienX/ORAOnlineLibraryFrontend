@@ -1,0 +1,63 @@
+@use '@angular/material' as mat;
+
+// Build palettes from your hex colors
+$ora-primary: mat.m2-define-palette((
+  50: #e8eef3,
+  100: #c5d3e0,
+  200: #9fb6cb,
+  300: #7899b6,
+  400: #5b82a6,
+  500: #0a2540,   // main blue
+  600: #092139,
+  700: #071b30,
+  800: #051627,
+  900: #030e1a,
+  contrast: (
+    50: rgba(black, 0.87),
+    100: rgba(black, 0.87),
+    200: rgba(black, 0.87),
+    300: white,
+    400: white,
+    500: white,
+    600: white,
+    700: white,
+    800: white,
+    900: white,
+  )
+), 500);
+
+$ora-accent: mat.m2-define-palette((
+  50: #fef4ec,
+  100: #fde3cf,
+  200: #fbd0ae,
+  300: #f9bd8d,
+  400: #f7ae74,
+  500: #F99245,   // main orange
+  600: #e0853e,
+  700: #c57436,
+  800: #aa632e,
+  900: #7f4a22,
+  contrast: (
+    50: rgba(black, 0.87),
+    100: rgba(black, 0.87),
+    200: rgba(black, 0.87),
+    300: rgba(black, 0.87),
+    400: rgba(black, 0.87),
+    500: white,
+    600: white,
+    700: white,
+    800: white,
+    900: white,
+  )
+), 500);
+
+$ora-theme: mat.m2-define-light-theme((
+  color: (
+    primary: $ora-primary,
+    accent: $ora-accent,
+  ),
+  typography: mat.m2-define-typography-config(),
+  density: 0,
+));
+
+@include mat.all-component-themes($ora-theme);

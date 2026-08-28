@@ -17,7 +17,8 @@ export const API_ENDPOINTS = {
     dataExists: `${API_BASE_URL}/student/data/verify`,
     onboard: `${API_BASE_URL}/student/onboard`,
     books: `${API_BASE_URL}/student/books`,
-    bookStatus: `${API_BASE_URL}/student/book/data`
+    bookStatus: `${API_BASE_URL}/student/book/data`,
+    studenProfile: `${API_BASE_URL}/student`
   },
   auth: {
     googleLogin: `${API_BASE_URL}/auth/g-login`,

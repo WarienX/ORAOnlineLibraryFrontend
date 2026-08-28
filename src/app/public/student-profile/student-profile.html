@@ -1,0 +1,134 @@
+<div class="page-container">
+
+  <div class="page-header">
+    <div>
+      <h1>My Profile</h1>
+      <p>View and update your personal details</p>
+    </div>
+  </div>
+
+  @if (isLoading()) {
+    <div class="loading-state">
+      <mat-spinner diameter="42"></mat-spinner>
+      <p>Loading profile...</p>
+    </div>
+  } @else if (profile) {
+
+    <!-- ========== READ-ONLY SECTION ========== -->
+    <div class="info-card">
+      <div class="section-header">
+        <h2>Account Details</h2>
+        <p>These details cannot be edited</p>
+      </div>
+
+      <div class="info-grid">
+        <div class="info-item">
+          <span class="info-label">Email</span>
+          <span class="info-value">{{ profile.userInfo.email_id }}</span>
+        </div>
+
+        <div class="info-item">
+          <span class="info-label">Grade</span>
+          <span class="info-value">
+            {{ profile.studentInfo.grade.name }} ({{ profile.studentInfo.grade.grade_number }})
+          </span>
+        </div>
+
+        <div class="info-item">
+          <span class="info-label">Father Email</span>
+          <span class="info-value">{{ profile.studentInfo.father_email || '—' }}</span>
+        </div>
+
+        <div class="info-item">
+          <span class="info-label">Father Mobile</span>
+          <span class="info-value">{{ profile.studentInfo.fathers_mobile_no || '—' }}</span>
+        </div>
+
+        <div class="info-item">
+          <span class="info-label">Mother Email</span>
+          <span class="info-value">{{ profile.studentInfo.mother_email || '—' }}</span>
+        </div>
+
+        <div class="info-item">
+          <span class="info-label">Mother Mobile</span>
+          <span class="info-value">{{ profile.studentInfo.mothers_mobile_no || '—' }}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========== EDITABLE FORM ========== -->
+    <div class="form-card">
+      <div class="section-header">
+        <h2>Personal Details</h2>
+        <p>You can update these fields</p>
+      </div>
+
+      <form [formGroup]="profileForm" (ngSubmit)="onSubmit()" class="form-body">
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Full Name</mat-label>
+          <input matInput formControlName="full_name" />
+          @if (profileForm.get('full_name')?.hasError('required') && profileForm.get('full_name')?.touched) {
+            <mat-error>Full name is required</mat-error>
+          }
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Mobile Number</mat-label>
+          <input matInput formControlName="mobile_no" maxlength="10" />
+          @if (profileForm.get('mobile_no')?.hasError('required') && profileForm.get('mobile_no')?.touched) {
+            <mat-error>Mobile number is required</mat-error>
+          }
+          @if (profileForm.get('mobile_no')?.hasError('pattern') && profileForm.get('mobile_no')?.touched) {
+            <mat-error>Enter a valid 10-digit number</mat-error>
+          }
+        </mat-form-field>
+
+        <div class="form-row">
+          <mat-form-field appearance="outline" class="half-width">
+            <mat-label>Date of Birth</mat-label>
+            <input matInput [matDatepicker]="picker" formControlName="dob" />
+            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+            @if (profileForm.get('dob')?.hasError('required') && profileForm.get('dob')?.touched) {
+              <mat-error>Date of birth is required</mat-error>
+            }
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="half-width">
+            <mat-label>Age</mat-label>
+            <input matInput type="number" formControlName="age" />
+          </mat-form-field>
+        </div>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Gender</mat-label>
+          <mat-select formControlName="gender">
+            @for (g of genderOptions; track g) {
+              <mat-option [value]="g">{{ g }}</mat-option>
+            }
+          </mat-select>
+          @if (profileForm.get('gender')?.hasError('required') && profileForm.get('gender')?.touched) {
+            <mat-error>Gender is required</mat-error>
+          }
+        </mat-form-field>
+
+        <div class="form-actions">
+          <button mat-flat-button color="primary" type="submit"
+                  class="save-btn"
+                  [disabled]="isSubmitting() || profileForm.invalid">
+            @if (isSubmitting()) {
+              Saving...
+            } @else {
+              <span class="btn-content">
+                <mat-icon>save</mat-icon>
+                Save Changes
+              </span>
+            }
+          </button>
+        </div>
+
+      </form>
+    </div>
+  }
+</div>

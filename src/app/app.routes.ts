@@ -10,6 +10,7 @@ import { GradesList } from './admin/grades-list/grades-list';
 import { EditGrade } from './admin/edit-grade/edit-grade';
 import { StudentOnboarding } from './public/student-onboarding/student-onboarding';
 import { StudentBooksList } from './public/student-books-list/student-books-list';
+import { StudentProfile } from './public/student-profile/student-profile';
 
 export const routes: Routes = [
     {
@@ -31,6 +32,11 @@ export const routes: Routes = [
                 path: 'student/books',
                 title: 'ORA Reading Collective - Books',
                 component: StudentBooksList,
+            },
+            {
+                path: 'student/profile',
+                title: 'ORA Reading Collective - Profile',
+                component: StudentProfile,
             }
         ]
     },{

@@ -1,5 +1,6 @@
 import { BookStatus } from "../enum";
 import { IBookStatus } from "./books.interface";
+import { IGrade } from "./grades.interface";
 
 export interface IStudentOnboardingPayload {
   grade: number;
@@ -46,4 +47,38 @@ export interface IStudentBooksListPayload {
   page: number;  
   limit: number;  
   status: BookStatus;
+}
+
+interface IStudentProfileUserInfo extends IUserData {
+  is_active: boolean;
+}
+
+export interface IStudentProfileInfo {
+  userInfo: IStudentProfileUserInfo,
+  studentInfo: {
+    father_email: string;
+    fathers_mobile_no: string;
+    mother_email: string;
+    mothers_mobile_no: string;
+    is_active: boolean;
+    grade: IGrade;
+  }
+}
+
+export interface IGetStudentProfileInfoResp {
+  message: string;
+  data: IStudentProfileInfo
+}
+
+export interface IUpdateStudentInfoPayload {
+  full_name: string;
+  mobile_no: string | null;
+  dob: string | null;
+  gender: string | null;
+  age: number | null;
+}
+
+export interface IUpdateStudentInfoResp {
+  message: string;
+  data: IStudentProfileUserInfo
 }
