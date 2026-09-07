@@ -11,7 +11,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { RouterModule } from '@angular/router';
-import { StudentService } from '../../services';
+import { AuthService, StudentService } from '../../services';
 import { IStudentProfileInfo } from '../../core';
 
 @Component({
@@ -36,11 +36,13 @@ import { IStudentProfileInfo } from '../../core';
 export class StudentProfile {
   private fb = inject(FormBuilder);
   private studentService = inject(StudentService);
+  private authService = inject(AuthService);
   private snackBar = inject(MatSnackBar);
 
   isLoading = signal(true);
   isSubmitting = signal(false);
   profile: IStudentProfileInfo | null = null;
+  isResettingPassword = signal(false);
 
   profileForm = this.fb.group({
     full_name: ['', [Validators.required, Validators.minLength(2)]],
@@ -130,6 +132,25 @@ export class StudentProfile {
         this.snackBar.open('Failed to update profile', 'Close', {
           duration: 3000
         });
+      }
+    });
+  }
+
+  onResetMasterPassword() {
+    if (this.isResettingPassword()) return;
+
+    this.isResettingPassword.set(true);
+
+    this.authService.resetMasterPassword().subscribe({
+      next: (res) => {
+        this.isResettingPassword.set(false);
+        this.snackBar.open(res.message, 'Close', { duration: 4000 });
+      },
+      error: (err) => {
+        this.isResettingPassword.set(false);
+        const message =
+          err?.error?.message || 'Failed to reset password. Please try again.';
+        this.snackBar.open(message, 'Close', { duration: 4000 });
       }
     });
   }

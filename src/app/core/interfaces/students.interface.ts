@@ -58,7 +58,7 @@ export interface IStudentProfileInfo {
   studentInfo: {
     father_email: string;
     fathers_mobile_no: string;
-    mother_email: string;
+    mothers_email: string;
     mothers_mobile_no: string;
     is_active: boolean;
     grade: IGrade;

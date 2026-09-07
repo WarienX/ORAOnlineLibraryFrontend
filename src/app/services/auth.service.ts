@@ -2,7 +2,7 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { API_ENDPOINTS, UserRole } from '../core';
 
 declare const google: any;
@@ -20,6 +20,15 @@ export class AuthService {
   private readonly GOOGLE_CLIENT_ID = '521672049311-ijfi6ef7gnlovolmjatgfso95kcctkvt.apps.googleusercontent.com';
 
   private readonly DEVICE_ID_KEY = 'ora_device_id';
+    deviceId = localStorage.getItem(this.DEVICE_ID_KEY);
+    accessToken = localStorage.getItem('token');
+
+    headers = {
+      headers: {
+        Authorization: `Bearer ${this.accessToken}`,
+        deviceId: `${this.deviceId}`
+      }
+    }
 
   constructor() {
     // Restore user from localStorage if available
@@ -113,12 +122,7 @@ export class AuthService {
   logout() {
     const deviceId = localStorage.getItem(this.DEVICE_ID_KEY);
     const accessToken = localStorage.getItem('token');
-    this.http.post(API_ENDPOINTS.auth.logout, {},{
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-        deviceId: `${deviceId}`
-      }
-    }).subscribe({
+    this.http.post(API_ENDPOINTS.auth.logout, {}, this.headers).subscribe({
       next: (res: any) => {
         console.log('Logged out successfully', res);
 
@@ -131,6 +135,10 @@ export class AuthService {
         console.error('Logout failed:', err);
       }
     })
+  }
+
+  resetMasterPassword(): Observable<{ message: string }> {
+    return this.http.get<{ message: string }>(API_ENDPOINTS.auth.resetMasterPassword, this.headers);
   }
 
   get isLoggedIn(): boolean {

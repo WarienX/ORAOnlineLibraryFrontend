@@ -46,7 +46,7 @@
 
         <div class="info-item">
           <span class="info-label">Mother Email</span>
-          <span class="info-value">{{ profile.studentInfo.mother_email || '—' }}</span>
+          <span class="info-value">{{ profile.studentInfo.mothers_email || '—' }}</span>
         </div>
 
         <div class="info-item">
@@ -129,6 +129,37 @@
         </div>
 
       </form>
+    </div>
+
+    <!-- Reset Password Section -->
+    <div class="form-card password-card">
+      <div class="section-header">
+        <h2>Security</h2>
+        <p>Reset your master password</p>
+      </div>
+
+      <div class="password-body">
+        <p class="password-hint">
+          This will send the new master password to your parent's email.
+        </p>
+
+        <button
+          mat-stroked-button
+          color="warn"
+          class="reset-btn"
+          type="button"
+          [disabled]="isResettingPassword()"
+          (click)="onResetMasterPassword()">
+          @if (isResettingPassword()) {
+            Sending...
+          } @else {
+            <span class="btn-content">
+              <mat-icon>lock_reset</mat-icon>
+              Reset Master Password
+            </span>
+          }
+        </button>
+      </div>
     </div>
   }
 </div>

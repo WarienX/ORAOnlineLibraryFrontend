@@ -22,7 +22,8 @@ export const API_ENDPOINTS = {
   },
   auth: {
     googleLogin: `${API_BASE_URL}/auth/g-login`,
-    logout: `${API_BASE_URL}/auth/logout`
+    logout: `${API_BASE_URL}/auth/logout`,
+    resetMasterPassword: `${API_BASE_URL}/auth/reset/masterpassword`
   },
   google: {
     oauth2: 'https://www.googleapis.com/oauth2/v3/userinfo',

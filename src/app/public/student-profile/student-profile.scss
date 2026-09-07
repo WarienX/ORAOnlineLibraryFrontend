@@ -144,3 +144,29 @@
     flex-direction: column;
   }
 }
+
+.password-card {
+  margin-top: 0;
+}
+
+.password-body {
+  padding: 24px 28px 28px;
+}
+
+.password-hint {
+  margin: 0 0 16px;
+  color: #64748b;
+  font-size: 0.9rem;
+}
+
+.reset-btn {
+  border-radius: 8px;
+  height: 42px;
+  font-weight: 500;
+}
+
+.btn-content {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
