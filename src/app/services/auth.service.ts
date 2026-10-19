@@ -122,7 +122,7 @@ export class AuthService {
   logout() {
     const deviceId = localStorage.getItem(this.DEVICE_ID_KEY);
     const accessToken = localStorage.getItem('token');
-    this.http.post(API_ENDPOINTS.auth.logout, {}, this.headers).subscribe({
+    this.http.post(API_ENDPOINTS.auth.logout, {}).subscribe({
       next: (res: any) => {
         console.log('Logged out successfully', res);
 

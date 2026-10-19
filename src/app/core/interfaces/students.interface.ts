@@ -56,7 +56,7 @@ interface IStudentProfileUserInfo extends IUserData {
 export interface IStudentProfileInfo {
   userInfo: IStudentProfileUserInfo,
   studentInfo: {
-    father_email: string;
+    fathers_email: string;
     fathers_mobile_no: string;
     mothers_email: string;
     mothers_mobile_no: string;
