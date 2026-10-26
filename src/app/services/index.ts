@@ -3,3 +3,4 @@ export * from './device.service';
 export * from './grade.service';
 export * from './student.service';
 export * from './google-books.service';
+export * from './ai-agent.service';

@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit, signal } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
@@ -9,13 +9,20 @@ import { GoogleBooksService, StudentService } from '../../services';
 import { BookStatus, IBook, IBookWithCover } from '../../core';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { MatTabsModule } from '@angular/material/tabs';
+import { debounceTime, distinctUntilChanged, Subject, takeUntil } from 'rxjs';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { FormsModule } from '@angular/forms';
+import { MatInputModule } from '@angular/material/input';
 
 @Component({
   selector: 'app-student-books-list',
   imports: [
     CommonModule,
+    FormsModule,
     RouterModule,
     MatTabsModule,
+    MatFormFieldModule,
+    MatInputModule,
     MatButtonModule,
     MatIconModule,
     MatProgressSpinnerModule,
@@ -25,16 +32,19 @@ import { MatTabsModule } from '@angular/material/tabs';
   templateUrl: './student-books-list.html',
   styleUrl: './student-books-list.scss',
 })
-export class StudentBooksList {
+export class StudentBooksList implements OnInit, OnDestroy {
   private bookService = inject(StudentService);
   private googleBooks = inject(GoogleBooksService);
   private snackBar = inject(MatSnackBar);
+  private destroy$ = new Subject<void>();
+  private search$ = new Subject<string>();
 
   books: IBook[] = [];
   activeTab = signal(BookStatus.AVAILABLE);
   booksWithCovers: IBookWithCover[] = [];
   bookStatus = signal(BookStatus.AVAILABLE)
   isLoading = signal(false);
+  search = signal('');
 
   totalBooks = signal(0);
   pageSize = signal(8);
@@ -42,6 +52,29 @@ export class StudentBooksList {
   pageSizeOptions = [8, 16, 24];
 
   ngOnInit() {
+    this.search$
+      .pipe(debounceTime(300), distinctUntilChanged(), takeUntil(this.destroy$))
+      .subscribe((term) => {
+        this.search.set(term);
+        this.pageIndex.set(0);
+        this.loadBooks();
+      });
+      
+    this.loadBooks();
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
+  onSearchChange(value: string) {
+    this.search$.next(value);
+  }
+
+  clearSearch() {
+    this.search.set('');
+    this.pageIndex.set(0);
     this.loadBooks();
   }
 
@@ -61,7 +94,7 @@ export class StudentBooksList {
 
     const page = this.pageIndex();
 
-    this.bookService.getBooksList({ page, limit: this.pageSize(), status: this.bookStatus() }).subscribe({
+    this.bookService.getBooksList({ page, limit: this.pageSize(), status: this.bookStatus(), search: this.search() }).subscribe({
       next: (data) => {
         this.booksWithCovers = data.list.map(book => ({
           ...book,
@@ -92,14 +125,17 @@ export class StudentBooksList {
 
   onBorrow(book: IBookWithCover) {
     this.runAction(book, BookStatus.BORROWED);
+    this.clearSearch();
   }
 
   onReserve(book: IBookWithCover) {
     this.runAction(book, BookStatus.RESERVED);
+    this.clearSearch();
   }
 
   onCancelReservation(book: IBookWithCover) {
     this.runAction(book, BookStatus.AVAILABLE);
+    this.clearSearch();
   }
 
   private runAction(book: IBookWithCover, action: BookStatus) {

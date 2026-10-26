@@ -28,6 +28,18 @@
   }
 }
 
+.search-bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.search-field {
+  width: 100%;
+  max-width: 360px;
+}
+
 .books-grid {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr)); /* always 4 columns */

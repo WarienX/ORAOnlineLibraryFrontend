@@ -7,6 +7,24 @@
     </div>
   </div>
 
+  <!-- Search (applies to selected tab) -->
+  <div class="search-bar">
+    <mat-form-field appearance="outline" class="search-field">
+      <mat-label>Search in {{ activeTab() }}</mat-label>
+      <input
+        matInput
+        [ngModel]="search()"
+        (ngModelChange)="onSearchChange($event)"
+        placeholder="Title or author"
+      />
+      <mat-icon matSuffix>search</mat-icon>
+    </mat-form-field>
+
+    @if (search()) {
+      <button mat-button type="button" (click)="clearSearch()">Clear</button>
+    }
+  </div>
+
   <mat-tab-group
     class="books-tabs"
     animationDuration="200ms"

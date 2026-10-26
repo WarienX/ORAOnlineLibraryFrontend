@@ -47,6 +47,7 @@ export interface IStudentBooksListPayload {
   page: number;  
   limit: number;  
   status: BookStatus;
+  search?: string;
 }
 
 interface IStudentProfileUserInfo extends IUserData {

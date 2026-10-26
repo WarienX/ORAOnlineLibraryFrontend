@@ -1,0 +1,83 @@
+<!-- Floating bot button -->
+<button class="bot-fab" (click)="toggleBot()" [class.open]="isOpen()">
+  <div class="bot-avatar" [class.bounce]="!isOpen()">
+    <!-- Replace with Lottie/Rive later -->
+    <span class="bot-emoji">🤖</span>
+  </div>
+</button>
+
+<!-- Chat panel -->
+@if (isOpen()) {
+  <div class="chat-panel">
+    <div class="chat-header">
+      <div class="header-left">
+        <div class="header-avatar">🤖</div>
+        <div>
+          <h3>ORA Library Bot</h3>
+          <p>Here to help you find books</p>
+        </div>
+      </div>
+      <button mat-icon-button (click)="toggleBot()">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+
+    <div class="chat-body" #chatBody>
+      @for (msg of messages(); track msg.id) {
+        <div class="message" [class.user]="msg.role === 'user'" [class.bot]="msg.role === 'bot'">
+          <div class="bubble">
+            {{ msg.text }}
+          </div>
+
+          @if (msg.suggestions?.length) {
+            <div class="suggestions">
+              @for (s of msg.suggestions; track s.bookId) {
+                <div class="suggestion-card">
+                  <div class="suggestion-info">
+                    <strong>{{ s.title }}</strong>
+                    <span>{{ s.author }}</span>
+                    <p>{{ s.reason }}</p>
+                  </div>
+                  <!-- <button mat-stroked-button color="primary" (click)="onBorrow(s)">
+                    Borrow
+                  </button> -->
+                </div>
+              }
+            </div>
+          }
+        </div>
+      }
+
+      @if (isTyping()) {
+        <div class="message bot">
+          <div class="bubble typing">
+            <span></span><span></span><span></span>
+          </div>
+        </div>
+      }
+    </div>
+
+    <!-- Quick actions -->
+    <div class="quick-actions">
+        @for (action of quickActions; track action) {
+            <button type="button" class="chip" (click)="onQuickAction(action)">
+            {{ action }}
+            </button>
+        }
+    </div>
+
+    <!-- Input -->
+    <div class="chat-input">
+      <input
+        type="text"
+        [(ngModel)]="messageText"
+        placeholder="Ask me anything..."
+        (keyup.enter)="sendMessage()"
+        [disabled]="isTyping()"
+      />
+      <button mat-fab color="primary" class="send-btn" (click)="sendMessage()" [disabled]="isTyping() || !messageText.trim()">
+        <mat-icon>send</mat-icon>
+      </button>
+    </div>
+  </div>
+}
