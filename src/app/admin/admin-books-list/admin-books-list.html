@@ -1,1 +1,198 @@
-<p>admin-books-list works!</p>
+<div class="page-container">
+  <div class="page-header">
+    <div>
+      <h1>Books</h1>
+      <p>Manage available inventory and borrowed books</p>
+    </div>
+  </div>
+
+  <!-- Search -->
+  <div class="search-bar">
+    <mat-form-field appearance="outline" class="search-field">
+      <mat-label>Search in {{ tabLabel }}</mat-label>
+      <input
+        matInput
+        [value]="search()"
+        (input)="onSearchChange($any($event.target).value)"
+        placeholder="Book Title"
+      />
+      <mat-icon matSuffix>search</mat-icon>
+    </mat-form-field>
+
+    @if (search()) {
+      <button mat-button type="button" (click)="clearSearch()">Clear</button>
+    }
+  </div>
+
+  <mat-tab-group
+    animationDuration="200ms"
+    (selectedIndexChange)="onTabChange($event)">
+    <mat-tab label="Available Books"></mat-tab>
+    <mat-tab label="Borrowed Books"></mat-tab>
+    <mat-tab label="Reserved Books"></mat-tab>
+  </mat-tab-group>
+
+  <div class="content-card">
+    @if (isLoading()) {
+      <div class="state-container">
+        <mat-spinner diameter="42"></mat-spinner>
+        <p>Loading books...</p>
+      </div>
+    } @else if (activeTab() === 'available') {
+      @if (books.length === 0) {
+        <div class="state-container">
+          <mat-icon>menu_book</mat-icon>
+          <h3>No available books</h3>
+          @if (search()) {
+            <p>No results for “{{ search() }}”</p>
+          }
+        </div>
+      } @else {
+        <div class="table-wrap">
+          <table mat-table [dataSource]="books" class="books-table">
+            <ng-container matColumnDef="title">
+              <th mat-header-cell *matHeaderCellDef>Title</th>
+              <td mat-cell *matCellDef="let row">{{ row.title }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="author">
+              <th mat-header-cell *matHeaderCellDef>Author</th>
+              <td mat-cell *matCellDef="let row">{{ row.author }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="isbn">
+              <th mat-header-cell *matHeaderCellDef>ISBN</th>
+              <td mat-cell *matCellDef="let row">{{ row.isbn || '—' }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="copies">
+              <th mat-header-cell *matHeaderCellDef>Copies</th>
+              <td mat-cell *matCellDef="let row">
+                {{ row.availableCopies ?? 0 }}
+                @if (row.totalCopies != null) {
+                  / {{ row.totalCopies }}
+                }
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="status">
+              <th mat-header-cell *matHeaderCellDef>Status</th>
+              <td mat-cell *matCellDef="let row">
+                <span class="status-chip available">Available</span>
+              </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="availableColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: availableColumns"></tr>
+          </table>
+        </div>
+      }
+    } @else if (activeTab() === 'borrowed') {
+      @if (books.length === 0) {
+        <div class="state-container">
+          <mat-icon>menu_book</mat-icon>
+          <h3>No borrowed books</h3>
+          @if (search()) {
+            <p>No results for “{{ search() }}”</p>
+          }
+        </div>
+      } @else {
+        <div class="table-wrap">
+          <table mat-table [dataSource]="books" class="books-table">
+            <ng-container matColumnDef="title">
+              <th mat-header-cell *matHeaderCellDef>Title</th>
+              <td mat-cell *matCellDef="let row">{{ row.title }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="author">
+              <th mat-header-cell *matHeaderCellDef>Author</th>
+              <td mat-cell *matCellDef="let row">{{ row.author }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="studentName">
+              <th mat-header-cell *matHeaderCellDef>Student</th>
+              <td mat-cell *matCellDef="let row">{{ row.studentName || '—' }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="studentEmail">
+              <th mat-header-cell *matHeaderCellDef>Email</th>
+              <td mat-cell *matCellDef="let row">{{ row.studentEmail || '—' }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="borrowedOn">
+              <th mat-header-cell *matHeaderCellDef>Borrowed On</th>
+              <td mat-cell *matCellDef="let row">
+                {{ row.borrowedOn ? (row.borrowedOn | date: 'mediumDate') : '—' }}
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="returnByDate">
+              <th mat-header-cell *matHeaderCellDef>Return By</th>
+              <td mat-cell *matCellDef="let row">
+                {{ row.returnByDate ? (row.returnByDate | date: 'mediumDate') : '—' }}
+              </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="borrowedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: borrowedColumns"></tr>
+          </table>
+        </div>
+      }
+    } @else {
+      @if (books.length === 0) {
+        <div class="state-container">
+          <mat-icon>bookmark</mat-icon>
+          <h3>No reserved books</h3>
+          @if (search()) {
+            <p>No results for “{{ search() }}”</p>
+          }
+        </div>
+      } @else {
+        <div class="table-wrap">
+          <table mat-table [dataSource]="books" class="books-table">
+            <ng-container matColumnDef="title">
+              <th mat-header-cell *matHeaderCellDef>Title</th>
+              <td mat-cell *matCellDef="let row">{{ row.title }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="author">
+              <th mat-header-cell *matHeaderCellDef>Author</th>
+              <td mat-cell *matCellDef="let row">{{ row.author }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="studentName">
+              <th mat-header-cell *matHeaderCellDef>Student</th>
+              <td mat-cell *matCellDef="let row">{{ row.studentName || '—' }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="studentEmail">
+              <th mat-header-cell *matHeaderCellDef>Email</th>
+              <td mat-cell *matCellDef="let row">{{ row.studentEmail || '—' }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="reservedOn">
+              <th mat-header-cell *matHeaderCellDef>Reserved On</th>
+              <td mat-cell *matCellDef="let row">
+                {{ row.reservedOn ? (row.reservedOn | date: 'mediumDate') : '—' }}
+              </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="reservedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: reservedColumns"></tr>
+          </table>
+        </div>
+      }
+    }
+
+    @if (!isLoading() && totalBooks() > 0) {
+      <mat-paginator
+        [length]="totalBooks()"
+        [pageIndex]="pageIndex()"
+        [pageSize]="pageSize()"
+        [pageSizeOptions]="pageSizeOptions"
+        [showFirstLastButtons]="true"
+        (page)="onPageChange($event)">
+      </mat-paginator>
+    }
+  </div>
+</div>

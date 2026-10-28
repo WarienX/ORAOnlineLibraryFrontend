@@ -33,7 +33,7 @@ export interface IStudentBookStatus {
   returned_on: string;
   return_by_date: string;
   reserved_on: string;
-  book: IBook;
+  book?: IBook;
 }
 
 export interface IStudentBooksListResponse {

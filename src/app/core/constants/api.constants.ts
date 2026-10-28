@@ -7,7 +7,7 @@ export const API_ENDPOINTS = {
     edit: `${API_BASE_URL}/admin/grade`,
     single: `${API_BASE_URL}/admin/grade/data`
   },
-  books: {
+  admin: {
     list: `${API_BASE_URL}/admin/books/list`,
     create: `${API_BASE_URL}/admin/book`,
     edit: `${API_BASE_URL}/admin/book`,

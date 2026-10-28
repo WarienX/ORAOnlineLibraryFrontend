@@ -1,0 +1,104 @@
+.page-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+.page-header {
+  margin-bottom: 20px;
+
+  h1 {
+    margin: 0 0 6px;
+    font-size: 1.75rem;
+    font-weight: 600;
+    color: #0a2540;
+  }
+
+  p {
+    margin: 0;
+    color: #64748b;
+  }
+}
+
+.search-bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.search-field {
+  width: 100%;
+  max-width: 360px;
+}
+
+.content-card {
+  margin-top: 16px;
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  overflow: hidden;
+  min-height: 420px;
+}
+
+.table-wrap {
+  overflow-x: auto;
+}
+
+.books-table {
+  width: 100%;
+
+  th {
+    font-weight: 600;
+    color: #334155;
+    background: #f8fafc;
+  }
+
+  td,
+  th {
+    padding: 14px 16px;
+  }
+}
+
+.status-chip {
+  display: inline-flex;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+
+  &.available {
+    background: #ecfdf5;
+    color: #047857;
+  }
+}
+
+.state-container {
+  min-height: 360px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  color: #64748b;
+
+  mat-icon {
+    font-size: 42px;
+    width: 42px;
+    height: 42px;
+    color: #94a3b8;
+  }
+
+  h3 {
+    margin: 0;
+    color: #334155;
+  }
+
+  p {
+    margin: 0;
+  }
+}
+
+mat-paginator {
+  border-top: 1px solid #f1f5f9;
+}
