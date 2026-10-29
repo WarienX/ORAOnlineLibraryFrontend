@@ -13,7 +13,8 @@ import { MatTableModule } from '@angular/material/table';
 import { MatTabsModule } from '@angular/material/tabs';
 import { AdminService } from '../../services';
 import { debounceTime, distinctUntilChanged, Subject, takeUntil } from 'rxjs';
-import { BookStatus, IAdminBook } from '../../core';
+import { BookAction, BookStatus, IAdminBook, IAdminStudents } from '../../core';
+import { MatSelectModule } from '@angular/material/select';
 
 @Component({
   selector: 'app-admin-books-list',
@@ -29,7 +30,8 @@ import { BookStatus, IAdminBook } from '../../core';
     MatPaginatorModule,
     MatProgressSpinnerModule,
     MatSnackBarModule,
-    MatChipsModule
+    MatChipsModule,
+    MatSelectModule
   ],
   templateUrl: './admin-books-list.html',
   styleUrl: './admin-books-list.scss',
@@ -46,27 +48,25 @@ export class AdminBooksList {
   isLoading = signal(false);
   search = signal('');
 
+  showStudentModal = signal(false);
+  modalAction = signal<BookAction | null>(null);
+  selectedBookId = signal<number | null>(null);
+  selectedStudentId = signal<number | null>(null);
+  selectedBookStatus = signal<BookStatus | null>(null);
+  studentsList = signal<IAdminStudents[]>([]);
+  isStudentsLoading = signal(false);
+  isActionSubmitting = signal(false);
+
   totalBooks = signal(0);
-  pageSize = signal(8);
+  pageSize = signal(50);
   pageIndex = signal(0);
-  pageSizeOptions = [10, 20, 30];
+  pageSizeOptions = [50, 100, 200];
 
   tabs: BookStatus[] = [BookStatus.AVAILABLE, BookStatus.BORROWED, BookStatus.RESERVED];
 
-  availableColumns = ['title', 'author', 'isbn', 'status'];
-  borrowedColumns = [
-    'title',
-    'author',
-    'studentName',
-    'borrowedOn',
-    'returnByDate'
-  ];
-  reservedColumns = [
-    'title',
-    'author',
-    'studentName',
-    'reservedOn'
-  ];
+  availableColumns = ['title', 'author', 'language', 'status', 'actions'];
+  borrowedColumns = ['title', 'author', 'studentName', 'borrowedOn', 'returnByDate', 'actions'];
+  reservedColumns = ['title', 'author', 'studentName', 'reservedOn', 'actions'];
 
   ngOnInit() {
     this.search$
@@ -118,7 +118,7 @@ export class AdminBooksList {
   loadBooks() {
     this.isLoading.set(true);
 
-    const page = this.pageIndex() + 1; // API 1-based
+    const page = this.pageIndex(); // API 1-based
     const type = this.activeTab();
 
     this.adminService
@@ -134,5 +134,108 @@ export class AdminBooksList {
           this.snackBar.open('Failed to load books', 'Close', { duration: 3000 });
         }
       });
+  }
+
+  private runAction(action: BookStatus, book_id: number, studentId: number, successMessage: string) {
+    this.adminService.updateBookStatus({ status:action, book_id, studentId }).subscribe({
+      next: (res) => {
+        this.snackBar.open(res.message || successMessage, 'Close', { duration: 3000 });
+        this.loadBooks();
+      },
+      error: (err) => {
+        this.snackBar.open(err?.error?.message || 'Action failed', 'Close', { duration: 3000 });
+      }
+    });
+  }
+
+  loadStudents() {
+    this.isStudentsLoading.set(true);
+
+    this.adminService.getAdminStudentsList().subscribe({
+      next: (res) => {
+        this.studentsList.set(res.list);
+        this.isStudentsLoading.set(false);
+      },
+      error: () => {
+        this.studentsList.set([]);
+        this.isStudentsLoading.set(false);
+      }
+    });
+  }
+
+  getBookLabel(bookId: number): string {
+    const book = this.books.find(b => b.id === bookId);
+    return book ? book.name : '';
+  }
+
+  onBorrow(book: { id: number; title: string }) {
+    this.openStudentModal(book, BookAction.BORROW, BookStatus.BORROWED);
+  }
+
+  onReserve(book: { id: number; title: string }) {
+    this.openStudentModal(book, BookAction.RESERVE, BookStatus.RESERVED);
+  }
+
+  onCancel(book: { id: number; title: string }) {
+    this.openStudentModal(book, BookAction.CANCEL, BookStatus.AVAILABLE);
+  }
+
+  onReturn(book: { id: number; title: string }) {
+    this.openStudentModal(book, BookAction.RETURN, BookStatus.RETURN);
+  }
+
+  private openStudentModal(
+    book: { id: number; title: string },
+    action: BookAction,
+    status: BookStatus
+  ) {
+    this.selectedBookId.set(book.id);
+    this.modalAction.set(action);
+    this.selectedBookStatus.set(status);
+    this.selectedStudentId.set(null);
+    this.showStudentModal.set(true);
+    this.loadStudents();
+  }
+
+  confirmStudentAction() {
+    const bookId = this.selectedBookId();
+    const action = this.modalAction();
+    const status = this.selectedBookStatus();
+    const studentId = this.selectedStudentId();
+
+    if (!bookId || !action || !status || !studentId || this.isActionSubmitting()) return;
+
+    this.isActionSubmitting.set(true);
+
+    this.adminService.updateBookStatus({
+      status,
+      book_id: bookId,
+      studentId
+    }).subscribe({
+      next: () => {
+        this.isActionSubmitting.set(false);
+        this.closeStudentModal();
+        this.snackBar.open(
+          action === 'borrow' ? 'Book borrowed successfully' : 'Book reserved successfully',
+          'Close',
+          { duration: 3000 }
+        );
+        this.loadBooks();
+      },
+      error: (err) => {
+        this.isActionSubmitting.set(false);
+        this.snackBar.open(err?.error?.message || 'Action failed', 'Close', {
+          duration: 3000
+        });
+      }
+    });
+  }
+
+  closeStudentModal() {
+    this.showStudentModal.set(false);
+    this.selectedBookId.set(null);
+    this.modalAction.set(null);
+    this.selectedBookStatus.set(null);
+    this.selectedStudentId.set(null);
   }
 }

@@ -15,11 +15,18 @@
     </div>
 
     <mat-nav-list>
-      <a mat-list-item routerLink="/admin" routerLinkActive="active-link"
+      <a mat-list-item routerLink="/admin/home" routerLinkActive="active-link"
         [routerLinkActiveOptions]="{exact: true}"
         class="nav-item">
         <mat-icon matListItemIcon>dashboard</mat-icon>
         <span class="parent-item" matListItemTitle>Dashboard</span>
+      </a>
+
+      <a mat-list-item routerLink="/admin/books/list" routerLinkActive="active-link"
+        [routerLinkActiveOptions]="{exact: true}"
+        class="nav-item">
+        <mat-icon matListItemIcon>list_alt</mat-icon>
+        <span class="parent-item" matListItemTitle>Books</span>
       </a>
 
       <!-- Grades Nested Menu -->

@@ -52,17 +52,17 @@
           <table mat-table [dataSource]="books" class="books-table">
             <ng-container matColumnDef="title">
               <th mat-header-cell *matHeaderCellDef>Title</th>
-              <td mat-cell *matCellDef="let row">{{ row.title }}</td>
+              <td mat-cell *matCellDef="let row">{{ row.name }}</td>
             </ng-container>
 
             <ng-container matColumnDef="author">
               <th mat-header-cell *matHeaderCellDef>Author</th>
-              <td mat-cell *matCellDef="let row">{{ row.author }}</td>
+              <td mat-cell *matCellDef="let row">{{ row.author || '—' }}</td>
             </ng-container>
 
-            <ng-container matColumnDef="isbn">
-              <th mat-header-cell *matHeaderCellDef>ISBN</th>
-              <td mat-cell *matCellDef="let row">{{ row.isbn || '—' }}</td>
+            <ng-container matColumnDef="language">
+              <th mat-header-cell *matHeaderCellDef>Language</th>
+              <td mat-cell *matCellDef="let row">{{ row.language || '—' }}</td>
             </ng-container>
 
             <ng-container matColumnDef="copies">
@@ -79,6 +79,20 @@
               <th mat-header-cell *matHeaderCellDef>Status</th>
               <td mat-cell *matCellDef="let row">
                 <span class="status-chip available">Available</span>
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="actions">
+              <th mat-header-cell *matHeaderCellDef>Actions</th>
+              <td mat-cell *matCellDef="let row">
+                <div class="action-btns">
+                  <button mat-stroked-button class="borrow">
+                    Borrow
+                  </button>
+                  <button mat-stroked-button class="reserve">
+                    Reserve
+                  </button>
+                </div>
               </td>
             </ng-container>
 
@@ -101,7 +115,7 @@
           <table mat-table [dataSource]="books" class="books-table">
             <ng-container matColumnDef="title">
               <th mat-header-cell *matHeaderCellDef>Title</th>
-              <td mat-cell *matCellDef="let row">{{ row.title }}</td>
+              <td mat-cell *matCellDef="let row">{{ row.name }}</td>
             </ng-container>
 
             <ng-container matColumnDef="author">
@@ -111,25 +125,31 @@
 
             <ng-container matColumnDef="studentName">
               <th mat-header-cell *matHeaderCellDef>Student</th>
-              <td mat-cell *matCellDef="let row">{{ row.studentName || '—' }}</td>
-            </ng-container>
-
-            <ng-container matColumnDef="studentEmail">
-              <th mat-header-cell *matHeaderCellDef>Email</th>
-              <td mat-cell *matCellDef="let row">{{ row.studentEmail || '—' }}</td>
+              <td mat-cell *matCellDef="let row">{{ row.student || '—' }}</td>
             </ng-container>
 
             <ng-container matColumnDef="borrowedOn">
               <th mat-header-cell *matHeaderCellDef>Borrowed On</th>
               <td mat-cell *matCellDef="let row">
-                {{ row.borrowedOn ? (row.borrowedOn | date: 'mediumDate') : '—' }}
+                {{ row.borrowed_on ? (row.borrowed_on | date: 'mediumDate') : '—' }}
               </td>
             </ng-container>
 
             <ng-container matColumnDef="returnByDate">
               <th mat-header-cell *matHeaderCellDef>Return By</th>
               <td mat-cell *matCellDef="let row">
-                {{ row.returnByDate ? (row.returnByDate | date: 'mediumDate') : '—' }}
+                {{ row.return_by_date ? (row.return_by_date | date: 'mediumDate') : '—' }}
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="actions">
+              <th mat-header-cell *matHeaderCellDef>Actions</th>
+              <td mat-cell *matCellDef="let row">
+                <div class="action-btns">
+                  <button mat-stroked-button class="borrow">
+                    Return
+                  </button>
+                </div>
               </td>
             </ng-container>
 
@@ -152,7 +172,7 @@
           <table mat-table [dataSource]="books" class="books-table">
             <ng-container matColumnDef="title">
               <th mat-header-cell *matHeaderCellDef>Title</th>
-              <td mat-cell *matCellDef="let row">{{ row.title }}</td>
+              <td mat-cell *matCellDef="let row">{{ row.name }}</td>
             </ng-container>
 
             <ng-container matColumnDef="author">
@@ -162,18 +182,27 @@
 
             <ng-container matColumnDef="studentName">
               <th mat-header-cell *matHeaderCellDef>Student</th>
-              <td mat-cell *matCellDef="let row">{{ row.studentName || '—' }}</td>
-            </ng-container>
-
-            <ng-container matColumnDef="studentEmail">
-              <th mat-header-cell *matHeaderCellDef>Email</th>
-              <td mat-cell *matCellDef="let row">{{ row.studentEmail || '—' }}</td>
+              <td mat-cell *matCellDef="let row">{{ row.student || '—' }}</td>
             </ng-container>
 
             <ng-container matColumnDef="reservedOn">
               <th mat-header-cell *matHeaderCellDef>Reserved On</th>
               <td mat-cell *matCellDef="let row">
-                {{ row.reservedOn ? (row.reservedOn | date: 'mediumDate') : '—' }}
+                {{ row.reserved_on ? (row.reserved_on | date: 'mediumDate') : '—' }}
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="actions">
+              <th mat-header-cell *matHeaderCellDef>Actions</th>
+              <td mat-cell *matCellDef="let row">
+                <div class="action-btns">
+                  <button mat-stroked-button class="reserve">
+                    Borrow
+                  </button>
+                  <button mat-stroked-button class="borrow">
+                    Cancel Reservation
+                  </button>
+                </div>
               </td>
             </ng-container>
 
@@ -193,6 +222,76 @@
         [showFirstLastButtons]="true"
         (page)="onPageChange($event)">
       </mat-paginator>
+    }
+
+    @if (showStudentModal()) {
+      <div class="modal-backdrop" (click)="closeStudentModal()"></div>
+
+      <div class="student-modal" role="dialog" aria-modal="true">
+        <div class="modal-header">
+          @if (modalAction() === BookAction.BORROW) {
+            <h3>Borrow Book</h3>
+          } @else if (modalAction() === BookAction.RESERVE) {
+            <h3>Reserve Book</h3>
+          } @else if (modalAction() === BookAction.CANCEL) {
+            <h3>Cancel Reservation</h3>
+          } @else if (modalAction() === BookAction.RETURN) {
+            <h3>Return Book</h3>
+          }
+          <button mat-icon-button type="button" (click)="closeStudentModal()">
+            <mat-icon>close</mat-icon>
+          </button>
+        </div>
+
+        <div class="modal-body">
+          <p class="book-title">{{ getBookLabel(selectedBookId()) }}</p>
+
+          @if (isStudentsLoading()) {
+            <div class="loading">
+              <mat-spinner diameter="28"></mat-spinner>
+              <span>Loading students...</span>
+            </div>
+          } @else {
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Select Student</mat-label>
+              <mat-select
+                [value]="selectedStudentId()"
+                (selectionChange)="selectedStudentId.set($event.value)">
+                @for (student of studentsList(); track student.id) {
+                  <mat-option [value]="student.id">
+                    {{ student.full_name }}
+                    @if (student.grade) {
+                      ({{ student.grade }})
+                    }
+                  </mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
+
+            @if (studentsList().length === 0) {
+              <p class="empty">No students found</p>
+            }
+          }
+        </div>
+
+        <div class="modal-actions">
+          <button mat-button type="button" (click)="closeStudentModal()">
+            Cancel
+          </button>
+          <button
+            mat-flat-button
+            color="primary"
+            type="button"
+            [disabled]="!selectedStudentId() || isStudentsLoading() || isActionSubmitting()"
+            (click)="confirmStudentAction()">
+            @if (isActionSubmitting()) {
+              Please wait...
+            } @else {
+              Confirm
+            }
+          </button>
+        </div>
+      </div>
     }
   </div>
 </div>

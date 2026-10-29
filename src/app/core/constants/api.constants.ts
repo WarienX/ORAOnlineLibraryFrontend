@@ -11,7 +11,8 @@ export const API_ENDPOINTS = {
     list: `${API_BASE_URL}/admin/books/list`,
     create: `${API_BASE_URL}/admin/book`,
     edit: `${API_BASE_URL}/admin/book`,
-    editBookStatus: `${API_BASE_URL}/admin/book/status`
+    editBookStatus: `${API_BASE_URL}/admin/book/status`,
+    studentsList: `${API_BASE_URL}/admin/students/list`
   },
   students: {
     dataExists: `${API_BASE_URL}/student/data/verify`,

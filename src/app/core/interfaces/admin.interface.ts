@@ -46,3 +46,15 @@ export interface IAdminBookStatusResponse {
   message: string;
   data: IBookStatus;
 }
+
+export interface IAdminStudents {
+  id: number;
+  user_id: number;
+  full_name: string;
+  grade: string;
+}
+
+export interface IAdminStudentsListResponse {
+  message: string;
+  list: IAdminStudents[];
+}

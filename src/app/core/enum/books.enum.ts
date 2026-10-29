@@ -6,3 +6,10 @@ export enum BookStatus {
     RETURN = 'return',
     UNAVAILABLE = 'unavailable'
 }
+
+export enum BookAction {
+    BORROW = 'borrow',
+    RESERVE = 'reserve',
+    CANCEL = 'cancel',
+    RETURN = 'return'
+}
