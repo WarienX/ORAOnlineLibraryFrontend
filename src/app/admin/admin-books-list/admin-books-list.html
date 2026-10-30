@@ -86,10 +86,10 @@
               <th mat-header-cell *matHeaderCellDef>Actions</th>
               <td mat-cell *matCellDef="let row">
                 <div class="action-btns">
-                  <button mat-stroked-button class="borrow">
+                  <button mat-stroked-button class="borrow" (click)="onBorrow({id: row.id, title: row.name})">
                     Borrow
                   </button>
-                  <button mat-stroked-button class="reserve">
+                  <button mat-stroked-button class="reserve" (click)="onReserve({id: row.id, title: row.name})">
                     Reserve
                   </button>
                 </div>
@@ -146,7 +146,7 @@
               <th mat-header-cell *matHeaderCellDef>Actions</th>
               <td mat-cell *matCellDef="let row">
                 <div class="action-btns">
-                  <button mat-stroked-button class="borrow">
+                  <button mat-stroked-button class="borrow" (click)="onReturn({id: row.id, title: row.name})">
                     Return
                   </button>
                 </div>
@@ -196,10 +196,10 @@
               <th mat-header-cell *matHeaderCellDef>Actions</th>
               <td mat-cell *matCellDef="let row">
                 <div class="action-btns">
-                  <button mat-stroked-button class="reserve">
+                  <button mat-stroked-button class="reserve" (click)="onBorrow({id: row.id, title: row.name})">
                     Borrow
                   </button>
-                  <button mat-stroked-button class="borrow">
+                  <button mat-stroked-button class="borrow" (click)="onCancel({id: row.id, title: row.name})">
                     Cancel Reservation
                   </button>
                 </div>
@@ -229,15 +229,7 @@
 
       <div class="student-modal" role="dialog" aria-modal="true">
         <div class="modal-header">
-          @if (modalAction() === BookAction.BORROW) {
-            <h3>Borrow Book</h3>
-          } @else if (modalAction() === BookAction.RESERVE) {
-            <h3>Reserve Book</h3>
-          } @else if (modalAction() === BookAction.CANCEL) {
-            <h3>Cancel Reservation</h3>
-          } @else if (modalAction() === BookAction.RETURN) {
-            <h3>Return Book</h3>
-          }
+          <h3>{{ modelTitle }}</h3>
           <button mat-icon-button type="button" (click)="closeStudentModal()">
             <mat-icon>close</mat-icon>
           </button>

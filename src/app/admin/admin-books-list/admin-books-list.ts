@@ -115,6 +115,13 @@ export class AdminBooksList {
     return 'Reserved';
   }
 
+  get modelTitle(): string {
+    if (this.modalAction() === BookAction.BORROW) return 'Borrow Book';
+    if (this.modalAction() === BookAction.RESERVE) return 'Reserve Book';
+    if (this.modalAction() === BookAction.RETURN) return 'Return Book';
+    return 'Cancel Reservation';
+  }
+
   loadBooks() {
     this.isLoading.set(true);
 
@@ -163,7 +170,7 @@ export class AdminBooksList {
     });
   }
 
-  getBookLabel(bookId: number): string {
+  getBookLabel(bookId: number | null): string {
     const book = this.books.find(b => b.id === bookId);
     return book ? book.name : '';
   }
@@ -212,14 +219,10 @@ export class AdminBooksList {
       book_id: bookId,
       studentId
     }).subscribe({
-      next: () => {
+      next: (res) => {
         this.isActionSubmitting.set(false);
         this.closeStudentModal();
-        this.snackBar.open(
-          action === 'borrow' ? 'Book borrowed successfully' : 'Book reserved successfully',
-          'Close',
-          { duration: 3000 }
-        );
+        this.snackBar.open(res.message, 'Close', { duration: 3000 });
         this.loadBooks();
       },
       error: (err) => {
