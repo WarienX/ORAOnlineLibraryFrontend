@@ -86,7 +86,7 @@
               <th mat-header-cell *matHeaderCellDef>Actions</th>
               <td mat-cell *matCellDef="let row">
                 <div class="action-btns">
-                  <button mat-stroked-button class="borrow" (click)="onBorrow({id: row.id, title: row.name})">
+                  <button mat-stroked-button class="borrow" (click)="onBorrow({id: row.id, title: row.name}, row.student_id)">
                     Borrow
                   </button>
                   <button mat-stroked-button class="reserve" (click)="onReserve({id: row.id, title: row.name})">
@@ -146,7 +146,7 @@
               <th mat-header-cell *matHeaderCellDef>Actions</th>
               <td mat-cell *matCellDef="let row">
                 <div class="action-btns">
-                  <button mat-stroked-button class="borrow" (click)="onReturn({id: row.id, title: row.name})">
+                  <button mat-stroked-button class="borrow" (click)="onReturn({id: row.id, title: row.name}, row.student_id)">
                     Return
                   </button>
                 </div>
@@ -196,10 +196,10 @@
               <th mat-header-cell *matHeaderCellDef>Actions</th>
               <td mat-cell *matCellDef="let row">
                 <div class="action-btns">
-                  <button mat-stroked-button class="reserve" (click)="onBorrow({id: row.id, title: row.name})">
+                  <button mat-stroked-button class="reserve" (click)="onBorrow({id: row.id, title: row.name}, row.student_id)">
                     Borrow
                   </button>
-                  <button mat-stroked-button class="borrow" (click)="onCancel({id: row.id, title: row.name})">
+                  <button mat-stroked-button class="borrow" (click)="onCancel({id: row.id, title: row.name}, row.student_id)">
                     Cancel Reservation
                   </button>
                 </div>
@@ -248,7 +248,8 @@
               <mat-label>Select Student</mat-label>
               <mat-select
                 [value]="selectedStudentId()"
-                (selectionChange)="selectedStudentId.set($event.value)">
+                (selectionChange)="selectedStudentId.set($event.value)"
+                [disabled]="disableStudentSelect()">
                 @for (student of studentsList(); track student.id) {
                   <mat-option [value]="student.id">
                     {{ student.full_name }}

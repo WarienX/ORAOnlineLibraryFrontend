@@ -56,6 +56,7 @@ export class AdminBooksList {
   studentsList = signal<IAdminStudents[]>([]);
   isStudentsLoading = signal(false);
   isActionSubmitting = signal(false);
+  disableStudentSelect = signal(false);
 
   totalBooks = signal(0);
   pageSize = signal(50);
@@ -143,18 +144,6 @@ export class AdminBooksList {
       });
   }
 
-  private runAction(action: BookStatus, book_id: number, studentId: number, successMessage: string) {
-    this.adminService.updateBookStatus({ status:action, book_id, studentId }).subscribe({
-      next: (res) => {
-        this.snackBar.open(res.message || successMessage, 'Close', { duration: 3000 });
-        this.loadBooks();
-      },
-      error: (err) => {
-        this.snackBar.open(err?.error?.message || 'Action failed', 'Close', { duration: 3000 });
-      }
-    });
-  }
-
   loadStudents() {
     this.isStudentsLoading.set(true);
 
@@ -175,31 +164,37 @@ export class AdminBooksList {
     return book ? book.name : '';
   }
 
-  onBorrow(book: { id: number; title: string }) {
-    this.openStudentModal(book, BookAction.BORROW, BookStatus.BORROWED);
+  onBorrow(book: { id: number; title: string }, studentId?: number) {
+    this.openStudentModal(book, BookAction.BORROW, BookStatus.BORROWED, studentId);
   }
 
   onReserve(book: { id: number; title: string }) {
     this.openStudentModal(book, BookAction.RESERVE, BookStatus.RESERVED);
   }
 
-  onCancel(book: { id: number; title: string }) {
-    this.openStudentModal(book, BookAction.CANCEL, BookStatus.AVAILABLE);
+  onCancel(book: { id: number; title: string }, studentId?: number) {
+    this.openStudentModal(book, BookAction.CANCEL, BookStatus.AVAILABLE, studentId);
   }
 
-  onReturn(book: { id: number; title: string }) {
-    this.openStudentModal(book, BookAction.RETURN, BookStatus.RETURN);
+  onReturn(book: { id: number; title: string }, studentId?: number) {
+    this.openStudentModal(book, BookAction.RETURN, BookStatus.RETURN, studentId);
   }
 
   private openStudentModal(
     book: { id: number; title: string },
     action: BookAction,
-    status: BookStatus
+    status: BookStatus,
+    studentId?: number
   ) {
     this.selectedBookId.set(book.id);
     this.modalAction.set(action);
     this.selectedBookStatus.set(status);
-    this.selectedStudentId.set(null);
+    this.selectedStudentId.set(studentId || null);
+    if (studentId) {
+      this.disableStudentSelect.set(true);
+    } else {
+      this.disableStudentSelect.set(false);
+    }
     this.showStudentModal.set(true);
     this.loadStudents();
   }

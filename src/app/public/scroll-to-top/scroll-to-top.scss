@@ -1,0 +1,14 @@
+.scroll-top-btn {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  z-index: 900;
+  background-color: #0a2540 !important;
+  color: #fff !important;
+  box-shadow: 0 8px 20px rgba(10, 37, 64, 0.25);
+}
+
+/* If AI bot FAB is also bottom-right on learner pages, offset this button */
+:host-context(.has-ai-bot) .scroll-top-btn {
+  bottom: 96px;
+}
