@@ -13,6 +13,7 @@ import { debounceTime, distinctUntilChanged, Subject, takeUntil } from 'rxjs';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { FormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
+import { ScrollToTop } from '../scroll-to-top/scroll-to-top';
 
 @Component({
   selector: 'app-student-books-list',
@@ -27,7 +28,8 @@ import { MatInputModule } from '@angular/material/input';
     MatIconModule,
     MatProgressSpinnerModule,
     MatPaginatorModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    ScrollToTop
   ],
   templateUrl: './student-books-list.html',
   styleUrl: './student-books-list.scss',

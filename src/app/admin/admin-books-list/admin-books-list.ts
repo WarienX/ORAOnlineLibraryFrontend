@@ -15,6 +15,7 @@ import { AdminService } from '../../services';
 import { debounceTime, distinctUntilChanged, Subject, takeUntil } from 'rxjs';
 import { BookAction, BookStatus, IAdminBook, IAdminStudents } from '../../core';
 import { MatSelectModule } from '@angular/material/select';
+import { ScrollToTop } from '../../public/scroll-to-top/scroll-to-top';
 
 @Component({
   selector: 'app-admin-books-list',
@@ -31,7 +32,8 @@ import { MatSelectModule } from '@angular/material/select';
     MatProgressSpinnerModule,
     MatSnackBarModule,
     MatChipsModule,
-    MatSelectModule
+    MatSelectModule,
+    ScrollToTop
   ],
   templateUrl: './admin-books-list.html',
   styleUrl: './admin-books-list.scss',
