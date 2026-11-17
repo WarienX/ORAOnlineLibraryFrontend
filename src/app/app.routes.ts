@@ -12,6 +12,9 @@ import { StudentOnboarding } from './public/student-onboarding/student-onboardin
 import { StudentBooksList } from './public/student-books-list/student-books-list';
 import { StudentProfile } from './public/student-profile/student-profile';
 import { AdminBooksList } from './admin/admin-books-list/admin-books-list';
+import { UnlockParentDashboard } from './public/unlock-parent-dashboard/unlock-parent-dashboard';
+import { ParentDashboardGuard } from './core';
+import { ParentDashboard } from './public/parent-dashboard/parent-dashboard';
 
 export const routes: Routes = [
     {
@@ -38,6 +41,17 @@ export const routes: Routes = [
                 path: 'student/profile',
                 title: 'ORA Reading Collective - Profile',
                 component: StudentProfile,
+            },
+            {
+                path: 'parent-unlock',
+                title: 'ORA Reading Collective - Unlock Parent Dashboard',
+                component: UnlockParentDashboard
+            },
+            {
+                path: 'parent-dashboard',
+                title: 'ORA Reading Collective - Parent Dashboard',
+                component: ParentDashboard,
+                canActivate: [ParentDashboardGuard]
             }
         ]
     },{

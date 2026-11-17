@@ -1,0 +1,111 @@
+<div class="page-container">
+  <div class="page-header">
+    <div>
+      <h1>Parent Dashboard</h1>
+      <p *ngIf="dashboardData().studentName">
+        Viewing activity for <strong>{{ dashboardData().studentName }}</strong>
+        <span *ngIf="dashboardData().studentGrade"> · {{ dashboardData().studentGrade }}</span>
+      </p>
+    </div>
+  </div>
+
+  <div *ngIf="isLoading()" class="state-container">
+    <mat-spinner diameter="42"></mat-spinner>
+    <p>Loading dashboard...</p>
+  </div>
+
+  <ng-container *ngIf="!isLoading()">
+    <!-- Metrics -->
+    <div class="metrics-grid">
+      <div class="metric-card">
+        <div class="metric-label">Borrowed</div>
+        <div class="metric-value">{{ dashboardData().metrics.borrowedCount }}</div>
+      </div>
+
+      <div class="metric-card">
+        <div class="metric-label">Reserved</div>
+        <div class="metric-value">{{ dashboardData().metrics.reservedCount }}</div>
+      </div>
+
+      <div class="metric-card warning" *ngIf="dashboardData() && dashboardData().metrics.overdueCount > 0">
+        <div class="metric-label">Overdue</div>
+        <div class="metric-value">{{ dashboardData().metrics.overdueCount }}</div>
+      </div>
+    </div>
+
+    <!-- Borrowed -->
+    <div class="section-card">
+      <h2>Borrowed Books</h2>
+
+      <div *ngIf="dashboardData() && dashboardData().borrowedBooks.length == 0" class="empty">
+        No books currently borrowed.
+      </div>
+
+      <div class="table-wrap" *ngIf="dashboardData() && dashboardData().borrowedBooks.length > 0">
+        <table mat-table [dataSource]="dashboardData().borrowedBooks" class="data-table">
+          <ng-container matColumnDef="title">
+            <th mat-header-cell *matHeaderCellDef>Title</th>
+            <td mat-cell *matCellDef="let row">{{ row.name }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="author">
+            <th mat-header-cell *matHeaderCellDef>Author</th>
+            <td mat-cell *matCellDef="let row">{{ row.author }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="borrowedOn">
+            <th mat-header-cell *matHeaderCellDef>Borrowed On</th>
+            <td mat-cell *matCellDef="let row">
+              {{ row.borrowed_on ? (row.borrowed_on | date: 'mediumDate') : '—' }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="returnByDate">
+            <th mat-header-cell *matHeaderCellDef>Return By</th>
+            <td mat-cell *matCellDef="let row">
+              <span [class.overdue]="row.isOverdue">
+                {{ row.return_by_date ? (row.return_by_date | date: 'mediumDate') : '—' }}
+              </span>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="['title','author','borrowedOn','returnByDate']"></tr>
+          <tr mat-row *matRowDef="let row; columns: ['title','author','borrowedOn','returnByDate']"></tr>
+        </table>
+      </div>
+    </div>
+
+    <!-- Reserved -->
+    <div class="section-card">
+      <h2>Reserved Books</h2>
+
+      <div *ngIf="dashboardData().reservedBooks.length == 0" class="empty">
+        No books currently reserved.
+      </div>
+
+      <div class="table-wrap" *ngIf="dashboardData().reservedBooks.length > 0">
+        <table mat-table [dataSource]="dashboardData().reservedBooks" class="data-table">
+          <ng-container matColumnDef="title">
+            <th mat-header-cell *matHeaderCellDef>Title</th>
+            <td mat-cell *matCellDef="let row">{{ row.name }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="author">
+            <th mat-header-cell *matHeaderCellDef>Author</th>
+            <td mat-cell *matCellDef="let row">{{ row.author }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="reservedOn">
+            <th mat-header-cell *matHeaderCellDef>Reserved On</th>
+            <td mat-cell *matCellDef="let row">
+              {{ row.reserved_on ? (row.reserved_on | date: 'mediumDate') : '—' }}
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="['title','author','reservedOn']"></tr>
+          <tr mat-row *matRowDef="let row; columns: ['title','author','reservedOn']"></tr>
+        </table>
+      </div>
+    </div>
+  </ng-container>
+</div>

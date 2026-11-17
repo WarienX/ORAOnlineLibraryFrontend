@@ -14,6 +14,8 @@ export class AuthService {
   private http = inject(HttpClient);
   private router = inject(Router);
 
+    private readonly PARENT_ACCESS_KEY = 'parent_dashboard_access';
+
   private currentUserSubject = new BehaviorSubject<any>(null);
   currentUser$ = this.currentUserSubject.asObservable();
 
@@ -122,12 +124,15 @@ export class AuthService {
   logout() {
     const deviceId = localStorage.getItem(this.DEVICE_ID_KEY);
     const accessToken = localStorage.getItem('token');
-    this.http.post(API_ENDPOINTS.auth.logout, {}).subscribe({
+    this.http.post(API_ENDPOINTS.auth.logout, {}, this.headers).subscribe({
       next: (res: any) => {
         console.log('Logged out successfully', res);
 
         localStorage.removeItem('token');
         localStorage.removeItem('user');
+        if (localStorage.getItem(this.PARENT_ACCESS_KEY) && localStorage.getItem(this.PARENT_ACCESS_KEY) == 'true') {
+          localStorage.removeItem(this.PARENT_ACCESS_KEY);
+        }
         this.currentUserSubject.next(null);
         this.router.navigate(['/login']);
       },

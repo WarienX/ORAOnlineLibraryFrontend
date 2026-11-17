@@ -21,6 +21,8 @@ export const API_ENDPOINTS = {
     bookStatus: `${API_BASE_URL}/student/book/data`,
     studenProfile: `${API_BASE_URL}/student`,
     chatBot: `${API_BASE_URL}/ai-agent/message`,
+    verifyMasterPassword: `${API_BASE_URL}/student/master-password`,
+    parentDashboard: `${API_BASE_URL}/student/parent-dashboard`,
   },
   auth: {
     googleLogin: `${API_BASE_URL}/auth/g-login`,

@@ -1,0 +1,54 @@
+.unlock-page {
+  min-height: 70vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.unlock-card {
+  width: 100%;
+  max-width: 420px;
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  padding: 28px 24px;
+  text-align: center;
+}
+
+.icon-wrap {
+  width: 56px;
+  height: 56px;
+  margin: 0 auto 12px;
+  border-radius: 50%;
+  background: #eff6ff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  mat-icon {
+    color: #0a2540;
+  }
+}
+
+h1 {
+  margin: 0 0 8px;
+  font-size: 1.4rem;
+  color: #0a2540;
+}
+
+p {
+  margin: 0 0 20px;
+  color: #64748b;
+  font-size: 0.92rem;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.submit-btn {
+  width: 100%;
+  margin-top: 8px;
+  height: 44px;
+}

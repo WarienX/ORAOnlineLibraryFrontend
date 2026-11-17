@@ -1,0 +1,34 @@
+<div class="unlock-page">
+  <div class="unlock-card">
+    <div class="icon-wrap">
+      <mat-icon>family_restroom</mat-icon>
+    </div>
+
+    <h1>Parent Dashboard</h1>
+    <p>Enter the Master Password to view your child’s library activity.</p>
+
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Master Password</mat-label>
+        <input
+          matInput
+          type="password"
+          formControlName="masterPassword"
+          autocomplete="current-password"
+        />
+        <mat-error *ngIf="form.controls.masterPassword.hasError('required')">
+          Master password is required
+        </mat-error>
+      </mat-form-field>
+
+      <button
+        mat-flat-button
+        color="primary"
+        class="submit-btn"
+        type="submit"
+        [disabled]="form.invalid || isSubmitting()">
+        {{ isSubmitting() ? 'Verifying...' : 'Unlock Dashboard' }}
+      </button>
+    </form>
+  </div>
+</div>
