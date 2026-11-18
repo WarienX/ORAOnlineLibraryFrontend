@@ -130,9 +130,7 @@ export class AuthService {
 
         localStorage.removeItem('token');
         localStorage.removeItem('user');
-        if (localStorage.getItem(this.PARENT_ACCESS_KEY) && localStorage.getItem(this.PARENT_ACCESS_KEY) == 'true') {
-          localStorage.removeItem(this.PARENT_ACCESS_KEY);
-        }
+        localStorage.removeItem(this.PARENT_ACCESS_KEY);
         this.currentUserSubject.next(null);
         this.router.navigate(['/login']);
       },

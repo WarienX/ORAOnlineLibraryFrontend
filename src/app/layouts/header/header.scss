@@ -77,12 +77,14 @@
 }
 
 .nav-links a {
-  color: #0a2540;
+  background-color: #ff8c42;
+  color: white;
   border-color: #ff8c42;
   border-width: 2px;
   border-style: solid;
-  border-radius: 10px;
+  border-radius: 50px;
   font-weight: 500;
+  padding: 10px 20px;
 }
 
 .cta-button {

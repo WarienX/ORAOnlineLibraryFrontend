@@ -1,0 +1,64 @@
+.app-shell {
+  position: relative;
+  min-height: 100vh;
+  background: linear-gradient(180deg, #f7f9fc 0%, #eef4fb 100%);
+  overflow-x: hidden;
+}
+
+.bg-decor {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.decor {
+  position: absolute;
+  opacity: 0.28;          /* was ~0.10–0.12 — more visible */
+  user-select: none;
+  object-fit: contain;
+}
+
+/* Kids reading — bottom left */
+.decor-1 {
+  width: 280px;
+  left: -10px;
+  bottom: 20px;
+  opacity: 0.5;
+}
+
+/* Book stack — make this one stronger */
+.decor-2 {
+  width: 240px;           /* larger */
+  right: 50px;
+  top: 140px;
+  opacity: 0.5;          /* more visible than others */
+}
+
+/* Globe / library scene — bottom right */
+.decor-3 {
+  width: 220px;
+  right: 10px;
+  bottom: 20px;
+  opacity: 0.5;
+}
+
+.decor-2 {
+  filter: contrast(1.05) saturate(1.1);
+}
+
+.app-content {
+  position: relative;
+  z-index: 1; /* content above decorations */
+}
+
+/* Optional: slightly stronger on large screens only */
+@media (max-width: 768px) {
+  .decor-1,
+  .decor-2,
+  .decor-3 {
+    width: 150px;
+    opacity: 0.18;
+  }
+}

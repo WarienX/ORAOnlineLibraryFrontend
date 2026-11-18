@@ -5,7 +5,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { AuthService } from '../../services';
 import { AsyncPipe, CommonModule } from '@angular/common';
 import { MatMenuModule } from '@angular/material/menu';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-header',
@@ -23,6 +23,7 @@ import { RouterLink } from '@angular/router';
 })
 export class Header {
   authService = inject(AuthService);
+  private router = inject(Router);
 
   logout() {
     this.authService.logout();

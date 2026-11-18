@@ -40,7 +40,16 @@
 
 <app-header></app-header>
 <main class="main">
+  <div class="app-shell">
+    <div class="bg-decor" aria-hidden="true">
+      <img src="assets/images/kids-reading.png" class="decor decor-1" alt="" />
+      <img src="assets/images/book-stack.png" class="decor decor-2" alt="" />
+      <img src="assets/images/library-globe.png" class="decor decor-3" alt="" />
+    </div>
+  </div>
+  <div class="app-content">
     <router-outlet/>
-    <app-ai-bot></app-ai-bot>
+  </div>
+  <app-ai-bot></app-ai-bot>
 </main>
 <app-footer></app-footer>

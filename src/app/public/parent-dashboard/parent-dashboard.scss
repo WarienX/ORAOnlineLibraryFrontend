@@ -97,3 +97,11 @@
     grid-template-columns: 1fr;
   }
 }
+
+.section-card,
+.metric-card,
+.unlock-card {
+  background: #fff;
+  position: relative;
+  z-index: 1;
+}
