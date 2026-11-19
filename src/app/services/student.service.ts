@@ -1,8 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { inject, Injectable } from "@angular/core";
 import { Observable } from "rxjs";
-import { API_ENDPOINTS, IGetStudentProfileInfoResp, IStudentBooksListPayload, IStudentBookStatusPayload, IStudentBookStatusResp, IStudentExistsResponse, IStudentOnboardingPayload, IStudentOnboardingResponse, IUpdateStudentInfoPayload, IUpdateStudentInfoResp } from "../core";
-import { IStudentBooksListResponse } from "../core/interfaces/books.interface";
+import { API_ENDPOINTS, IGetStudentProfileInfoResp, IStudentBooksListPayload, IStudentBookStatusPayload, IStudentBookStatusResp, IStudentDashboardDataResp, IStudentExistsResponse, IStudentOnboardingPayload, IStudentOnboardingResponse, IUpdateStudentInfoPayload, IUpdateStudentInfoResp, IStudentBooksListResponse } from "../core";
 
 @Injectable({
   providedIn: 'root'
@@ -43,5 +42,9 @@ export class StudentService {
 
   updateStudentProfile(payload: IUpdateStudentInfoPayload): Observable<IUpdateStudentInfoResp> {
     return this.http.patch<IUpdateStudentInfoResp>(API_ENDPOINTS.students.studenProfile, payload,this.headers);
+  }
+
+  getDashboard(): Observable<IStudentDashboardDataResp> {
+    return this.http.get<IStudentDashboardDataResp>(API_ENDPOINTS.students.studentDashboard, this.headers);
   }
 }

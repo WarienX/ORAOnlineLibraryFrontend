@@ -1,1 +1,178 @@
-<p>student-dashboard works!</p>
+<div class="page-container">
+  @if (isLoading()) {
+    <div class="state-container">
+      <mat-spinner diameter="42"></mat-spinner>
+      <p>Loading your dashboard...</p>
+    </div>
+  } @else {
+    <!-- Welcome -->
+    <div class="page-header">
+      <div>
+        <h1>
+          Hi{{ data()?.studentName ? ', ' + data()!.studentName : '' }} 👋
+        </h1>
+        <p>
+          @if (data()?.gradeName) {
+            <span class="grade-pill">{{ data()!.gradeName }}</span>
+          }
+          @if (metrics().dueSoonCount > 0) {
+            <span class="due-hint">
+              You have <strong>{{ metrics().dueSoonCount }}</strong>
+              book{{ metrics().dueSoonCount > 1 ? 's' : '' }} due soon
+            </span>
+          } @else {
+            <span class="due-hint">Welcome back to ORA Reading Collective</span>
+          }
+        </p>
+      </div>
+    </div>
+
+    <!-- Metrics -->
+    <div class="metrics-grid">
+      <div class="metric-card">
+        <div class="metric-label">Borrowed</div>
+        <div class="metric-value">{{ metrics().borrowedCount }}</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">Reserved</div>
+        <div class="metric-value">{{ metrics().reservedCount }}</div>
+      </div>
+      <div class="metric-card" [class.warning]="metrics().dueSoonCount > 0">
+        <div class="metric-label">Due Soon</div>
+        <div class="metric-value">{{ metrics().dueSoonCount }}</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">Returned this month</div>
+        <div class="metric-value">{{ metrics().returnedThisMonth }}</div>
+      </div>
+    </div>
+
+    <!-- Due soon alert -->
+    @if (dueSoonBooks().length > 0) {
+      <div class="alert-card">
+        <mat-icon>schedule</mat-icon>
+        <div>
+          <strong>Due soon / overdue</strong>
+          <p>
+            @for (book of dueSoonBooks(); track book.id; let last = $last) {
+              {{ book.title }}{{ last ? '' : ', ' }}
+            }
+          </p>
+        </div>
+        <a mat-stroked-button routerLink="/student/books">View books</a>
+      </div>
+    }
+
+    <!-- Borrowed -->
+    <div class="section-card">
+      <div class="section-header">
+        <h2>My Reading Now</h2>
+        <a mat-button routerLink="/student/books">See all</a>
+      </div>
+
+      @if (borrowedBooks().length === 0) {
+        <div class="empty">
+          No borrowed books.
+          <a routerLink="/student/books">Browse the library</a>
+        </div>
+      } @else {
+        <div class="book-list">
+          @for (book of borrowedBooks(); track book.id) {
+            <div class="book-row">
+              <div class="book-main">
+                <div class="meta">
+                  <div class="title">{{ book.title }}</div>
+                  <div class="author">{{ book.author }}</div>
+                  <div class="dates">
+                    @if (book.returnByDate) {
+                      Return by {{ book.returnByDate | date: 'mediumDate' }}
+                    }
+                  </div>
+                </div>
+              </div>
+              <div class="book-side">
+                @if (book.isOverdue || (book.daysUntilDue != null && book.daysUntilDue <= 3)) {
+                  <span
+                    class="chip"
+                    [class.overdue]="book.isOverdue">
+                    {{ dueLabel(book) }}
+                  </span>
+                }
+              </div>
+            </div>
+          }
+        </div>
+      }
+    </div>
+
+    <!-- Reserved -->
+    <div class="section-card">
+      <div class="section-header">
+        <h2>Reserved</h2>
+      </div>
+
+      @if (reservedBooks().length === 0) {
+        <div class="empty">No reserved books right now.</div>
+      } @else {
+        <div class="book-list">
+          @for (book of reservedBooks(); track book.id) {
+            <div class="book-row">
+              <div class="book-main">
+                <div class="cover small">
+                  <mat-icon>bookmark</mat-icon>
+                </div>
+                <div class="meta">
+                  <div class="title">{{ book.title }}</div>
+                  <div class="author">{{ book.author }}</div>
+                  <div class="dates">
+                    @if (book.reservedOn) {
+                      Reserved {{ book.reservedOn | date: 'mediumDate' }}
+                    }
+                  </div>
+                </div>
+              </div>
+            </div>
+          }
+        </div>
+      }
+    </div>
+
+    <!-- Suggestions -->
+    @if (suggestedBooks().length > 0) {
+      <div class="section-card">
+        <div class="section-header">
+          <h2>Suggested for you</h2>
+        </div>
+        <div class="suggest-grid">
+          @for (book of suggestedBooks(); track book.id) {
+            <div class="suggest-card">
+              <div class="suggest-meta">
+                <div class="title">{{ book.title }}</div>
+                <div class="author">{{ book.author }}</div>
+                @if (book.reason) {
+                  <div class="reason">{{ book.reason }}</div>
+                }
+              </div>
+            </div>
+          }
+        </div>
+      </div>
+    }
+
+    <!-- Quick actions -->
+    <div class="actions-row">
+      <a mat-flat-button color="primary" routerLink="/student/books">
+        <mat-icon>menu_book</mat-icon>
+        Browse Books
+      </a>
+      <a mat-stroked-button routerLink="/parent-unlock">
+        <mat-icon>family_restroom</mat-icon>
+        Parent Dashboard
+      </a>
+      <a mat-stroked-button routerLink="/student/profile">
+        <mat-icon>person</mat-icon>
+        My Profile
+      </a>
+    </div>
+  }
+</div>

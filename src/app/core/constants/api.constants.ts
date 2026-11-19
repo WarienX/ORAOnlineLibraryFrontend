@@ -23,6 +23,7 @@ export const API_ENDPOINTS = {
     chatBot: `${API_BASE_URL}/ai-agent/message`,
     verifyMasterPassword: `${API_BASE_URL}/student/master-password`,
     parentDashboard: `${API_BASE_URL}/student/parent-dashboard`,
+    studentDashboard: `${API_BASE_URL}/student/dashboard`,
   },
   auth: {
     googleLogin: `${API_BASE_URL}/auth/g-login`,

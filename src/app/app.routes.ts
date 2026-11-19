@@ -15,6 +15,7 @@ import { AdminBooksList } from './admin/admin-books-list/admin-books-list';
 import { UnlockParentDashboard } from './public/unlock-parent-dashboard/unlock-parent-dashboard';
 import { ParentDashboardGuard } from './core';
 import { ParentDashboard } from './public/parent-dashboard/parent-dashboard';
+import { StudentDashboard } from './public/student-dashboard/student-dashboard';
 
 export const routes: Routes = [
     {
@@ -25,7 +26,7 @@ export const routes: Routes = [
             {
                 path: '',
                 title: 'ORA Reading Collective - Homepage',
-                component: Homepage,
+                component: StudentDashboard,
             },
             {
                 path: 'student/onboarding',

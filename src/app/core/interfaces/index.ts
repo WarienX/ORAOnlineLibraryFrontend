@@ -5,3 +5,4 @@ export * from './books.interface';
 export * from './aiBot.interface';
 export * from './admin.interface';
 export * from './parentDashboard.interface';
+export * from './studentDashboard.interface';
