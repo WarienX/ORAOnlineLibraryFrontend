@@ -95,3 +95,42 @@ export interface IAdminDashboardAPIResponse {
   message: string;
   data: IAdminDashboardData;
 }
+
+export interface IAdminAddBookReqBody {
+  book_name: string;
+  series_name: string | null;
+  author: string;
+  genre: string;
+  language: string;
+  gradeId: number;
+  position: string;
+}
+
+export interface IAdminBookData {
+  id: number;
+  name: string;
+  series_name: string;
+  author: string;
+  genre: string;
+  language: string;
+  count: number;
+  grade_id: number;
+  status: BookStatus;
+  position: string;
+}
+
+export interface IAdminAddNewBookResponse {
+  message: string;
+  data: IAdminBookData;
+}
+
+export interface IAdminEditBookReqBody {
+  book_id: number;
+  book_name: string | null;
+  series_name: string | null;
+  author: string | null;
+  genre: string | null;
+  language: string | null;
+  gradeId: number | null;
+  position: string | null;
+}

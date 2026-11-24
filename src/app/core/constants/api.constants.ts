@@ -9,8 +9,8 @@ export const API_ENDPOINTS = {
   },
   admin: {
     list: `${API_BASE_URL}/admin/books/list`,
-    create: `${API_BASE_URL}/admin/book`,
-    edit: `${API_BASE_URL}/admin/book`,
+    createBook: `${API_BASE_URL}/admin/book`,
+    editBook: `${API_BASE_URL}/admin/book`,
     editBookStatus: `${API_BASE_URL}/admin/book/status`,
     studentsList: `${API_BASE_URL}/admin/students/list`,
     dashboardStats: `${API_BASE_URL}/admin/dashboard`,
