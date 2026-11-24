@@ -67,7 +67,7 @@ export class AdminBooksList {
 
   tabs: BookStatus[] = [BookStatus.AVAILABLE, BookStatus.BORROWED, BookStatus.RESERVED];
 
-  availableColumns = ['title', 'author', 'language', 'status', 'actions'];
+  availableColumns = ['title', 'author', 'language', 'actions'];
   borrowedColumns = ['title', 'author', 'studentName', 'borrowedOn', 'returnByDate', 'actions'];
   reservedColumns = ['title', 'author', 'studentName', 'reservedOn', 'actions'];
 

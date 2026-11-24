@@ -1,0 +1,143 @@
+<div class="page-container">
+  @if (isLoading()) {
+    <div class="state-container">
+      <mat-spinner diameter="42"></mat-spinner>
+      <p>Loading dashboard...</p>
+    </div>
+  } @else {
+    <div class="page-header">
+      <div>
+        <h1>Admin Dashboard</h1>
+        <p>Library overview for ORA World School</p>
+      </div>
+    </div>
+
+    <!-- Metrics -->
+    <div class="metrics-grid">
+      <div class="metric-card">
+        <div class="metric-label">Total Books</div>
+        <div class="metric-value">{{ metrics().totalBooks }}</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">Available</div>
+        <div class="metric-value">{{ metrics().availableBooks }}</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">Borrowed</div>
+        <div class="metric-value">{{ metrics().borrowedBooks }}</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">Reserved</div>
+        <div class="metric-value">{{ metrics().reservedBooks }}</div>
+      </div>
+      <div class="metric-card" [class.warning]="metrics().overdueBooks > 0">
+        <div class="metric-label">Overdue</div>
+        <div class="metric-value">{{ metrics().overdueBooks }}</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">Students</div>
+        <div class="metric-value">{{ metrics().totalStudents }}</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">Grades</div>
+        <div class="metric-value">{{ metrics().totalGrades }}</div>
+      </div>
+    </div>
+
+    <!-- Quick actions -->
+    <div class="actions-row">
+      <a mat-flat-button color="primary" routerLink="/admin/books/list">
+        <mat-icon>menu_book</mat-icon>
+        Manage Books
+      </a>
+      <a mat-stroked-button routerLink="/admin/grades">
+        <mat-icon>school</mat-icon>
+        Grades
+      </a>
+      <a mat-stroked-button routerLink="/admin/students">
+        <mat-icon>group</mat-icon>
+        Students
+      </a>
+    </div>
+
+    <!-- Recent borrows -->
+    <div class="section-card">
+      <div class="section-header">
+        <h2>Recent Borrows</h2>
+        <a mat-button routerLink="/admin/books/list">View all</a>
+      </div>
+
+      @if (recentBorrows().length === 0) {
+        <div class="empty">No recent borrows.</div>
+      } @else {
+        <div class="table-wrap">
+          <table mat-table [dataSource]="recentBorrows()" class="data-table">
+            <ng-container matColumnDef="bookTitle">
+              <th mat-header-cell *matHeaderCellDef>Book</th>
+              <td mat-cell *matCellDef="let row">{{ row.bookTitle }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="studentName">
+              <th mat-header-cell *matHeaderCellDef>Student</th>
+              <td mat-cell *matCellDef="let row">{{ row.studentName }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="borrowedOn">
+              <th mat-header-cell *matHeaderCellDef>Borrowed On</th>
+              <td mat-cell *matCellDef="let row">
+                {{ row.borrowedOn | date: 'mediumDate' }}
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="returnByDate">
+              <th mat-header-cell *matHeaderCellDef>Return By</th>
+              <td mat-cell *matCellDef="let row">
+                <span [class.overdue]="row.isOverdue">
+                  {{ row.returnByDate ? (row.returnByDate | date: 'mediumDate') : '—' }}
+                </span>
+              </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="borrowColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: borrowColumns"></tr>
+          </table>
+        </div>
+      }
+    </div>
+
+    <!-- Recent reservations -->
+    <div class="section-card">
+      <div class="section-header">
+        <h2>Recent Reservations</h2>
+      </div>
+
+      @if (recentReservations().length === 0) {
+        <div class="empty">No recent reservations.</div>
+      } @else {
+        <div class="table-wrap">
+          <table mat-table [dataSource]="recentReservations()" class="data-table">
+            <ng-container matColumnDef="bookTitle">
+              <th mat-header-cell *matHeaderCellDef>Book</th>
+              <td mat-cell *matCellDef="let row">{{ row.bookTitle }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="studentName">
+              <th mat-header-cell *matHeaderCellDef>Student</th>
+              <td mat-cell *matCellDef="let row">{{ row.studentName }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="reservedOn">
+              <th mat-header-cell *matHeaderCellDef>Reserved On</th>
+              <td mat-cell *matCellDef="let row">
+                {{ row.reservedOn | date: 'mediumDate' }}
+              </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="reserveColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: reserveColumns"></tr>
+          </table>
+        </div>
+      }
+    </div>
+  }
+</div>

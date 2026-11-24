@@ -58,3 +58,40 @@ export interface IAdminStudentsListResponse {
   message: string;
   list: IAdminStudents[];
 }
+
+export interface IAdminDashboardMetrics {
+  totalBooks: number;
+  availableBooks: number;
+  borrowedBooks: number;
+  reservedBooks: number;
+  overdueBooks: number;
+  totalStudents: number;
+  totalGrades: number;
+}
+
+export interface IAdminRecentBorrow {
+  id: number;
+  bookTitle: string;
+  studentName: string;
+  borrowedOn: string;
+  returnByDate?: string;
+  isOverdue?: boolean;
+}
+
+export interface IAdminRecentReservation {
+  id: number;
+  bookTitle: string;
+  studentName: string;
+  reservedOn: string;
+}
+
+export interface IAdminDashboardData {
+  metrics: IAdminDashboardMetrics;
+  recentBorrows: IAdminRecentBorrow[];
+  recentReservations: IAdminRecentReservation[];
+}
+
+export interface IAdminDashboardAPIResponse {
+  message: string;
+  data: IAdminDashboardData;
+}

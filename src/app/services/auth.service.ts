@@ -101,7 +101,7 @@ export class AuthService {
 
             this.currentUserSubject.next(userData);
             if (userData.role == UserRole.ADMIN) {
-              this.router.navigate(['/admin/home']);
+              this.router.navigate(['/admin/dashboard']);
             } else {
               if (userData.role == UserRole.STUDENT && res.studentDataExists === false) {
                 this.router.navigate(['/student/onboarding']);

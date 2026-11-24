@@ -1,6 +1,6 @@
 import { HttpClient } from "@angular/common/http";
 import { inject, Injectable } from "@angular/core";
-import { API_ENDPOINTS, IAdminBooksListPayload, IAdminBooksListResponse, IAdminBookStatusResponse, IAdminBookStatusUpdatePayload, IAdminStudentsListResponse, IStudentBooksListPayload, IStudentBooksListResponse } from "../core";
+import { API_ENDPOINTS, IAdminBooksListPayload, IAdminBooksListResponse, IAdminBookStatusResponse, IAdminBookStatusUpdatePayload, IAdminDashboardAPIResponse, IAdminStudentsListResponse, IStudentBooksListPayload, IStudentBooksListResponse } from "../core";
 import { Observable } from "rxjs";
 
 @Injectable({
@@ -30,5 +30,9 @@ export class AdminService {
 
     getAdminStudentsList(): Observable<IAdminStudentsListResponse> {
         return this.http.get<IAdminStudentsListResponse>(API_ENDPOINTS.admin.studentsList,this.headers);
+    }
+    
+    getAdminDashboardMetrics(): Observable<IAdminDashboardAPIResponse> {
+        return this.http.get<IAdminDashboardAPIResponse>(API_ENDPOINTS.admin.dashboardStats,this.headers);
     }
 }
