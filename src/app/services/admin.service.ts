@@ -1,6 +1,6 @@
 import { HttpClient } from "@angular/common/http";
 import { inject, Injectable } from "@angular/core";
-import { API_ENDPOINTS, IAdminAddBookReqBody, IAdminAddNewBookResponse, IAdminBooksListPayload, IAdminBooksListResponse, IAdminBookStatusResponse, IAdminBookStatusUpdatePayload, IAdminDashboardAPIResponse, IAdminEditBookReqBody, IAdminStudentsListResponse, IStudentBooksListPayload, IStudentBooksListResponse } from "../core";
+import { API_ENDPOINTS, IAdminAddBookReqBody, IAdminAddNewBookResponse, IAdminBooksListPayload, IAdminBooksListResponse, IAdminBookStatusResponse, IAdminBookStatusUpdatePayload, IAdminDashboardAPIResponse, IAdminEditBookReqBody, IAdminStudentsListResponse, IGetSingleBookDataReqBody, IGetSingleBookDataResp, IStudentBooksListPayload, IStudentBooksListResponse } from "../core";
 import { Observable } from "rxjs";
 
 @Injectable({
@@ -26,6 +26,10 @@ export class AdminService {
 
     addAdminBook(payload: IAdminAddBookReqBody): Observable<IAdminAddNewBookResponse> {
       return this.http.post<IAdminAddNewBookResponse>(API_ENDPOINTS.admin.createBook, payload,this.headers);
+    }
+
+    getAdminSingleBookData(payload: IGetSingleBookDataReqBody): Observable<IGetSingleBookDataResp> {
+      return this.http.post<IGetSingleBookDataResp>(API_ENDPOINTS.admin.bookData, payload,this.headers);
     }
 
     editAdminBook(payload: IAdminEditBookReqBody): Observable<IAdminAddNewBookResponse> {

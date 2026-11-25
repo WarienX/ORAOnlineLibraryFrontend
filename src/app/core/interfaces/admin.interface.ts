@@ -134,3 +134,16 @@ export interface IAdminEditBookReqBody {
   gradeId: number | null;
   position: string | null;
 }
+
+export interface IGetSingleBookDataReqBody {
+  book_id: number;
+}
+
+export interface ISingleBookData extends IAdminBookData {
+  grade: IGrade;
+}
+
+export interface IGetSingleBookDataResp {
+  message: string;
+  data: ISingleBookData;
+}
